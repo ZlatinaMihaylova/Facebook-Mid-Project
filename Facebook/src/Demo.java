@@ -3,10 +3,12 @@ public class Demo {
 
 	public static void main(String[] args) {
 		
-		User zlati = new User();
-		User ivan = new User();
+		FacebookSystem db = FacebookSystem.getDataBase();
+		db.signUp();
+		db.logIn();
 		
-		DataBase.getDataBase().showAllAccounts();
+		
+		FacebookSystem.getDataBase().showAllAccounts();
 		
 	}
 }
