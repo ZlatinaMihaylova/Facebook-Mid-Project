@@ -16,42 +16,11 @@ public class User {
 		this.email = email;
 		this.password = password;
 		
-		this.profile = new Profile();
+		this.profile = new Profile(name);
 		FacebookSystem.getFacebookSystem().addNewUser(this);
 		
 	}
-/*	
-	private static boolean verifyEmail(String email) {
-		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
-	}
-	private static boolean verifyPassword(String password) {
-		boolean isLower = false;
-		boolean isUpper = false;
-		boolean isDigit = false;
-		
-		if ( password.length() < 5) {
-			return false;
-		}
-		for ( int index = 0; index < password.length(); index++) {
-			if (Character.isLowerCase(password.charAt(index))) {
-				isLower = true;
-			}
-			if (Character.isUpperCase(password.charAt(index))) {
-				isUpper = true;
-			}
-			if (Character.isDigit(password.charAt(index))) {
-				isDigit = true;
-			}
-		}
-		if (isLower && isUpper && isDigit ) {
-			return true;
-		}
-		return false;
-	}
-*/
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,6 +57,10 @@ public class User {
 
 	String getPassword() {
 		return password;
+	}
+
+	public Profile getProfile() {
+		return profile;
 	}
 
 

@@ -92,6 +92,13 @@ public class FacebookLoginSystem {
 				}
 				else {
 					System.out.println("Welcome " + user.toString());
+					
+					frame.setVisible(false);
+	                frame.dispose();
+	                
+					FacebookProfile profile = new FacebookProfile(user.getProfile());
+					FacebookProfile.main(user.getProfile()); 
+
 				}
 			}
 		});
@@ -102,8 +109,12 @@ public class FacebookLoginSystem {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+                frame.dispose();
+				
 				FacebookSignUpSystem signUp = new FacebookSignUpSystem();
 				FacebookSignUpSystem.main(null);
+				
 			}
 		});
 		btnNewButton_1.setBounds(178, 183, 132, 44);

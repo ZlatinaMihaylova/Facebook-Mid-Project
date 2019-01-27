@@ -127,7 +127,13 @@ public class FacebookSignUpSystem {
 				
 				if (FacebookSignUpSystem.verifyEmail(email) && FacebookSignUpSystem.verifyPassword(password)) {
 					User user = new User(name, email, password);
-					System.out.println("New user created");
+					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Complete", JOptionPane.PLAIN_MESSAGE);
+					
+					frame.setVisible(false);
+	                frame.dispose();
+	                
+	                FacebookLoginSystem login = new FacebookLoginSystem();
+					FacebookLoginSystem.main(null);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid e-mail or password", "Sign Up Error", JOptionPane.ERROR_MESSAGE);
@@ -143,6 +149,9 @@ public class FacebookSignUpSystem {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+                frame.dispose();
+                
 				FacebookLoginSystem login = new FacebookLoginSystem();
 				FacebookLoginSystem.main(null);
 				

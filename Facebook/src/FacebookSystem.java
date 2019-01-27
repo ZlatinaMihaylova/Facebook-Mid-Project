@@ -20,12 +20,6 @@ public class FacebookSystem {
 		}
 		return FacebookSystem.facebookSystem;
 	}
-/*	
-	public static DataBase addToDataBase(User user) {
-		DataBase.getDataBase().users.add(user);
-		return DataBase.dataBase;
-	}
-*/
 	void showAllAccounts() {
 		for (User a : users) {
 			System.out.println(a.toString());
