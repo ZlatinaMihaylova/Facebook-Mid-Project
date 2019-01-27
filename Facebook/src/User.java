@@ -10,33 +10,17 @@ public class User {
 	private Profile profile;
 	
 	
-	public User() {
-		System.out.println("Name: ");
-		String name = new Scanner(System.in).nextLine();
-		
-		System.out.println("E-mail: ");
-		String email = new Scanner(System.in).nextLine();
-		while (!User.verifyEmail(email)) {
-			System.out.println("Your email address is invalid. Please enter a valid address: ");
-			email = new Scanner(System.in).nextLine();
-		}
-		
-		System.out.println("Password: ");
-		String password = new Scanner(System.in).nextLine();
-		while (!User.verifyPassword(password)) {
-			System.out.println("Your password must must be at least 5 characters long and have at least one lowercase letter, one capital letter and one number! Enter valid password:");
-			password = new Scanner(System.in).nextLine();
-		}
+	public User(String name, String email, String password) {
 
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		
 		this.profile = new Profile();
+		FacebookSystem.getFacebookSystem().addNewUser(this);
 		
-		System.out.println("Welcome to Facebook! ");
 	}
-	
+/*	
 	private static boolean verifyEmail(String email) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -51,7 +35,6 @@ public class User {
 		if ( password.length() < 5) {
 			return false;
 		}
-		
 		for ( int index = 0; index < password.length(); index++) {
 			if (Character.isLowerCase(password.charAt(index))) {
 				isLower = true;
@@ -59,7 +42,6 @@ public class User {
 			if (Character.isUpperCase(password.charAt(index))) {
 				isUpper = true;
 			}
-			
 			if (Character.isDigit(password.charAt(index))) {
 				isDigit = true;
 			}
@@ -67,10 +49,9 @@ public class User {
 		if (isLower && isUpper && isDigit ) {
 			return true;
 		}
-		
 		return false;
 	}
-
+*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -105,7 +86,7 @@ public class User {
 		return email;
 	}
 
-	public String getPassword() {
+	String getPassword() {
 		return password;
 	}
 
