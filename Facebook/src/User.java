@@ -6,7 +6,6 @@ public class User {
 	private String email;
 	private String password;
 	
-	private FacebookSystem facebookSystem;
 	private Profile profile;
 	
 	
@@ -23,32 +22,17 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		return result;
+		return this.email.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		return true;
+		return this.email.equals(((User) obj).email);
 	}
 
 	@Override
 	public String toString() {
-		return "Account [name=" + name + "]";
+		return "User: " + this.name;
 	}
 
 	public String getEmail() {

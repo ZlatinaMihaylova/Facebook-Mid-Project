@@ -11,7 +11,7 @@ import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FacebookSignUpSystem {
+public class SignUpSystemWindow {
 
 	private JFrame frame;
 	private JTextField newNameField;
@@ -58,7 +58,7 @@ public class FacebookSignUpSystem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FacebookSignUpSystem window = new FacebookSignUpSystem();
+					SignUpSystemWindow window = new SignUpSystemWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,7 +70,7 @@ public class FacebookSignUpSystem {
 	/**
 	 * Create the application.
 	 */
-	public FacebookSignUpSystem() {
+	public SignUpSystemWindow() {
 		initialize();
 	}
 
@@ -125,15 +125,15 @@ public class FacebookSignUpSystem {
 				String email = newEmailField.getText();
 				String password = newPasswordField.getText();
 				
-				if (FacebookSignUpSystem.verifyEmail(email) && FacebookSignUpSystem.verifyPassword(password)) {
+				if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
 					User user = new User(name, email, password);
-					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Complete", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Completed", JOptionPane.PLAIN_MESSAGE);
 					
 					frame.setVisible(false);
 	                frame.dispose();
 	                
-	                FacebookLoginSystem login = new FacebookLoginSystem();
-					FacebookLoginSystem.main(null);
+	                LoginSystemWindow login = new LoginSystemWindow();
+					LoginSystemWindow.main(null);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid e-mail or password", "Sign Up Error", JOptionPane.ERROR_MESSAGE);
@@ -149,11 +149,12 @@ public class FacebookSignUpSystem {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				frame.setVisible(false);
                 frame.dispose();
                 
-				FacebookLoginSystem login = new FacebookLoginSystem();
-				FacebookLoginSystem.main(null);
+				LoginSystemWindow login = new LoginSystemWindow();
+				LoginSystemWindow.main(null);
 				
 			}
 		});

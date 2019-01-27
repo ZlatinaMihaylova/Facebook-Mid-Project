@@ -16,10 +16,10 @@ public class FacebookSystem {
 	public static FacebookSystem getFacebookSystem() {
 		if ( FacebookSystem.facebookSystem == null ) {
 			FacebookSystem.facebookSystem = new FacebookSystem();
-			
 		}
 		return FacebookSystem.facebookSystem;
 	}
+	
 	void showAllAccounts() {
 		for (User a : users) {
 			System.out.println(a.toString());

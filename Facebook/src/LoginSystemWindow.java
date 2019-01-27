@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JSeparator;
 
-public class FacebookLoginSystem {
+public class LoginSystemWindow {
 
 	private JFrame frame;
 	private JTextField emailField;
@@ -26,7 +26,7 @@ public class FacebookLoginSystem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FacebookLoginSystem window = new FacebookLoginSystem();
+					LoginSystemWindow window = new LoginSystemWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class FacebookLoginSystem {
 	/**
 	 * Create the application.
 	 */
-	public FacebookLoginSystem() {
+	public LoginSystemWindow() {
 		this.facebookSystem = FacebookSystem.getFacebookSystem();
 		initialize();
 	}
@@ -68,12 +68,12 @@ public class FacebookLoginSystem {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		emailField = new JTextField();
-		emailField.setBounds(171, 77, 185, 19);
+		emailField.setBounds(171, 73, 186, 27);
 		frame.getContentPane().add(emailField);
 		emailField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(171, 116, 185, 22);
+		passwordField.setBounds(171, 115, 186, 27);
 		frame.getContentPane().add(passwordField);
 		
 		JButton btnNewButton = new JButton("Login");
@@ -91,13 +91,12 @@ public class FacebookLoginSystem {
 					passwordField.setText(null);
 				}
 				else {
-					System.out.println("Welcome " + user.toString());
 					
 					frame.setVisible(false);
 	                frame.dispose();
 	                
-					FacebookProfile profile = new FacebookProfile(user.getProfile());
-					FacebookProfile.main(user.getProfile()); 
+					ProfileWindow profile = new ProfileWindow(user.getProfile());
+					ProfileWindow.main(user.getProfile()); 
 
 				}
 			}
@@ -112,8 +111,8 @@ public class FacebookLoginSystem {
 				frame.setVisible(false);
                 frame.dispose();
 				
-				FacebookSignUpSystem signUp = new FacebookSignUpSystem();
-				FacebookSignUpSystem.main(null);
+				SignUpSystemWindow signUp = new SignUpSystemWindow();
+				SignUpSystemWindow.main(null);
 				
 			}
 		});
