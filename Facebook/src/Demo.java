@@ -5,5 +5,6 @@ public class Demo {
 
 		LoginSystemWindow login = new LoginSystemWindow();
 		LoginSystemWindow.main(null);
+
 	}
 }
