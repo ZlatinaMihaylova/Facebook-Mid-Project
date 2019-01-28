@@ -85,11 +85,19 @@ public class LoginSystemWindow {
 				String password = passwordField.getText();
 				
 				User user = FacebookSystem.getFacebookSystem().logIn(email, password);
-				if ( user == null ) {
-					JOptionPane.showMessageDialog(null, "No such user exixts", "Login Error", JOptionPane.ERROR_MESSAGE);
+				
+				if  (!FacebookSystem.getFacebookSystem().containsEmail(email) ) {
+					JOptionPane.showMessageDialog(null, "The email you’ve entered doesn’t match any account. Sign up for an account.", "Login Error", JOptionPane.ERROR_MESSAGE);
 					emailField.setText(null);
 					passwordField.setText(null);
 				}
+				
+				else if ( user == null ) {
+					JOptionPane.showMessageDialog(null, "Wrong password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+					passwordField.setText(null);
+				}
+
+				
 				else {
 					
 					frame.setVisible(false);

@@ -39,5 +39,14 @@ public class FacebookSystem {
 		}
 		return null;
 	}
+	
+	boolean containsEmail(String email) {
+		for (User user : users) {
+			if ( user.getEmail().equals(email)) {
+				return true;
+			}
+		} 
+		return false;
+	}
 
 }

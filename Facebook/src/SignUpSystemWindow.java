@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class SignUpSystemWindow {
 
@@ -117,6 +119,14 @@ public class SignUpSystemWindow {
 		newPasswordField.setBounds(202, 137, 186, 27);
 		frame.getContentPane().add(newPasswordField);
 		
+
+		JLabel sameEmailError = new JLabel();
+		sameEmailError.setHorizontalAlignment(SwingConstants.LEFT);
+		sameEmailError.setForeground(Color.RED);
+		sameEmailError.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		sameEmailError.setBounds(212, 119, 170, 22);
+		frame.getContentPane().add(sameEmailError);
+		
 		JButton signUpButton = new JButton("Sign Up");
 		signUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -125,8 +135,15 @@ public class SignUpSystemWindow {
 				String email = newEmailField.getText();
 				String password = newPasswordField.getText();
 				
-				if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
+				if (FacebookSystem.getFacebookSystem().containsEmail(email)) {
+					sameEmailError.setText("Email Address is Already Registered.");
+				}
+				
+				else if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
+					sameEmailError.setText(null);
 					User user = new User(name, email, password);
+					FacebookSystem.getFacebookSystem().addNewUser(user);
+					
 					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Completed", JOptionPane.PLAIN_MESSAGE);
 					
 					frame.setVisible(false);
@@ -137,6 +154,7 @@ public class SignUpSystemWindow {
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid e-mail or password", "Sign Up Error", JOptionPane.ERROR_MESSAGE);
+					sameEmailError.setText(null);
 					newEmailField.setText(null);
 					newPasswordField.setText(null);
 				}
@@ -184,6 +202,6 @@ public class SignUpSystemWindow {
 		frame.getContentPane().add(separator_1);
 		
 		
+		
 	}
-
 }

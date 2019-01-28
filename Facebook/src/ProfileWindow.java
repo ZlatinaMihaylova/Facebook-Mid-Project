@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -58,8 +60,8 @@ public class ProfileWindow {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("User Information:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(44, 79, 170, 16);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(34, 101, 170, 16);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("High School:");
@@ -117,5 +119,24 @@ public class ProfileWindow {
 		changeInformationButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		changeInformationButton.setBounds(12, 275, 171, 25);
 		frame.getContentPane().add(changeInformationButton);
+		
+		JButton logoutButton = new JButton("Log out");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Log out",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+					
+					frame.setVisible(false);
+	                frame.dispose();
+	                
+	                LoginSystemWindow newLogin = new LoginSystemWindow();
+	                LoginSystemWindow.main(null);
+					
+				}
+				
+			}
+		});
+		logoutButton.setBounds(492, 16, 97, 25);
+		frame.getContentPane().add(logoutButton);
 	}
 }

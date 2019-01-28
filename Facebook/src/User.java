@@ -16,7 +16,7 @@ public class User {
 		this.password = password;
 		
 		this.profile = new Profile(name);
-		FacebookSystem.getFacebookSystem().addNewUser(this);
+
 		
 	}
 
