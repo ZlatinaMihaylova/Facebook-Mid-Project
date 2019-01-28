@@ -106,11 +106,8 @@ public class ChangeUserInformationWindow {
 		updateInformationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				profile.getInformation().setHighSchool(updateHighSchoolField.getText());
-				profile.getInformation().setUniversity(updateUniversityField.getText());
-				profile.getInformation().setEmployer(updateEmployerField.getText());
-				profile.getInformation().setCurrentCity(updateCurrentCityField.getText());
-				profile.getInformation().setHometown(updateHometownField.getText());
+				profile.getInformation().updateInformation(updateHighSchoolField.getText(), updateUniversityField.getText(),
+						updateEmployerField.getText(), updateCurrentCityField.getText(), updateHometownField.getText());
 				
 				frame.setVisible(false);
                 frame.dispose();

@@ -100,7 +100,7 @@ public class ProfileWindow {
 		CurrentCityInfo.setBounds(127, 217, 138, 16);
 		frame.getContentPane().add(CurrentCityInfo);
 		
-		JLabel HometownInfo = new JLabel(this.profile.getInformation().getHighSchool());
+		JLabel HometownInfo = new JLabel(this.profile.getInformation().getHometown());
 		HometownInfo.setBounds(127, 246, 138, 16);
 		frame.getContentPane().add(HometownInfo);
 		
