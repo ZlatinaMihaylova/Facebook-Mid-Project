@@ -17,10 +17,10 @@ public class FacebookSystem {
 	public static FacebookSystem getFacebookSystem() {
 		if ( FacebookSystem.facebookSystem == null ) {
 			FacebookSystem.facebookSystem = new FacebookSystem();
-			
 		}
 		return FacebookSystem.facebookSystem;
 	}
+	
 	void showAllAccounts() {
 		for (User a : users) {
 			System.out.println(a.toString());
@@ -39,6 +39,15 @@ public class FacebookSystem {
 			}
 		}
 		return null;
+	}
+	
+	boolean containsEmail(String email) {
+		for (User user : users) {
+			if ( user.getEmail().equals(email)) {
+				return true;
+			}
+		} 
+		return false;
 	}
 
 }

@@ -15,46 +15,34 @@ public class UserInformation {
 		this.currentCity = "";
 		this.hometown = "";
 	}
+	
+	void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) {
+		this.highSchool = highSchool;
+		this.university = university;
+		this.employer = employer;
+		this.currentCity = currentCity;
+		this.hometown = hometown;
+	}
 
 	public String getHighSchool() {
 		return highSchool;
-	}
-
-	public void setHighSchool(String highSchool) {
-		this.highSchool = highSchool;
 	}
 
 	public String getUniversity() {
 		return university;
 	}
 
-	public void setUniversity(String university) {
-		this.university = university;
-	}
-
 	public String getEmployer() {
 		return employer;
 	}
 
-	public void setEmployer(String employer) {
-		this.employer = employer;
-	}
 
 	public String getCurrentCity() {
 		return currentCity;
 	}
 
-	public void setCurrentCity(String currentCity) {
-		this.currentCity = currentCity;
-	}
-
 	public String getHometown() {
 		return hometown;
 	}
-
-	public void setHometown(String hometown) {
-		this.hometown = hometown;
-	}
-	
 	
 }

@@ -6,9 +6,14 @@ import javax.swing.JScrollBar;
 import Common.Profile;
 
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JOptionPane;
 
-public class FacebookProfile {
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class ProfileWindow {
 
 	private JFrame frame;
 	
@@ -22,7 +27,7 @@ public class FacebookProfile {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FacebookProfile window = new FacebookProfile(profile2);
+					ProfileWindow window = new ProfileWindow(profile2);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +39,7 @@ public class FacebookProfile {
 	/**
 	 * Create the application.
 	 */
-	public FacebookProfile(Profile profile) {
+	public ProfileWindow(Profile profile) {
 		this.profile = profile;
 		initialize();
 	}
@@ -58,8 +63,8 @@ public class FacebookProfile {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("User Information:");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1.setBounds(44, 79, 170, 16);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(34, 101, 170, 16);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("High School:");
@@ -83,23 +88,58 @@ public class FacebookProfile {
 		frame.getContentPane().add(lblNewLabel_6);
 		
 		JLabel highSchoolInfo = new JLabel(this.profile.getInformation().getHighSchool());
-		highSchoolInfo.setBounds(127, 130, 56, 16);
+		highSchoolInfo.setBounds(127, 130, 138, 16);
 		frame.getContentPane().add(highSchoolInfo);
 		
 		JLabel UniversityInfo = new JLabel(this.profile.getInformation().getUniversity());
-		UniversityInfo.setBounds(127, 159, 56, 16);
+		UniversityInfo.setBounds(127, 159, 138, 16);
 		frame.getContentPane().add(UniversityInfo);
 		
 		JLabel EmployeerInfo = new JLabel(this.profile.getInformation().getEmployer());
-		EmployeerInfo.setBounds(127, 188, 56, 16);
+		EmployeerInfo.setBounds(127, 188, 138, 16);
 		frame.getContentPane().add(EmployeerInfo);
 		
 		JLabel CurrentCityInfo = new JLabel(this.profile.getInformation().getCurrentCity());
-		CurrentCityInfo.setBounds(127, 217, 56, 16);
+		CurrentCityInfo.setBounds(127, 217, 138, 16);
 		frame.getContentPane().add(CurrentCityInfo);
 		
-		JLabel HometownInfo = new JLabel(this.profile.getInformation().getHighSchool());
-		HometownInfo.setBounds(127, 246, 56, 16);
+		JLabel HometownInfo = new JLabel(this.profile.getInformation().getHometown());
+		HometownInfo.setBounds(127, 246, 138, 16);
 		frame.getContentPane().add(HometownInfo);
+		
+		JButton changeInformationButton = new JButton("Change Information");
+		changeInformationButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				frame.setVisible(false);
+                frame.dispose();
+				
+				ChangeUserInformationWindow changeInformation = new ChangeUserInformationWindow(profile);
+				ChangeUserInformationWindow.main(profile);
+				
+			}
+		});
+		changeInformationButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		changeInformationButton.setBounds(12, 275, 171, 25);
+		frame.getContentPane().add(changeInformationButton);
+		
+		JButton logoutButton = new JButton("Log out");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Log out",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+					
+					frame.setVisible(false);
+	                frame.dispose();
+	                
+	                LoginSystemWindow newLogin = new LoginSystemWindow();
+	                LoginSystemWindow.main(null);
+					
+				}
+				
+			}
+		});
+		logoutButton.setBounds(492, 16, 97, 25);
+		frame.getContentPane().add(logoutButton);
 	}
 }

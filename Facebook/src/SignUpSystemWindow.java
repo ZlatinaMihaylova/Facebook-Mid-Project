@@ -13,8 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
-public class FacebookSignUpSystem {
+public class SignUpSystemWindow {
 
 	private JFrame frame;
 	private JTextField newNameField;
@@ -61,7 +63,7 @@ public class FacebookSignUpSystem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FacebookSignUpSystem window = new FacebookSignUpSystem();
+					SignUpSystemWindow window = new SignUpSystemWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,7 +75,7 @@ public class FacebookSignUpSystem {
 	/**
 	 * Create the application.
 	 */
-	public FacebookSignUpSystem() {
+	public SignUpSystemWindow() {
 		initialize();
 	}
 
@@ -120,6 +122,14 @@ public class FacebookSignUpSystem {
 		newPasswordField.setBounds(202, 137, 186, 27);
 		frame.getContentPane().add(newPasswordField);
 		
+
+		JLabel sameEmailError = new JLabel();
+		sameEmailError.setHorizontalAlignment(SwingConstants.LEFT);
+		sameEmailError.setForeground(Color.RED);
+		sameEmailError.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		sameEmailError.setBounds(212, 119, 170, 22);
+		frame.getContentPane().add(sameEmailError);
+		
 		JButton signUpButton = new JButton("Sign Up");
 		signUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -128,18 +138,26 @@ public class FacebookSignUpSystem {
 				String email = newEmailField.getText();
 				String password = newPasswordField.getText();
 				
-				if (FacebookSignUpSystem.verifyEmail(email) && FacebookSignUpSystem.verifyPassword(password)) {
+				if (FacebookSystem.getFacebookSystem().containsEmail(email)) {
+					sameEmailError.setText("Email Address is Already Registered.");
+				}
+				
+				else if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
+					sameEmailError.setText(null);
 					User user = new User(name, email, password);
-					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Complete", JOptionPane.PLAIN_MESSAGE);
+					FacebookSystem.getFacebookSystem().addNewUser(user);
+					
+					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Completed", JOptionPane.PLAIN_MESSAGE);
 					
 					frame.setVisible(false);
 	                frame.dispose();
 	                
-	                FacebookLoginSystem login = new FacebookLoginSystem();
-					FacebookLoginSystem.main(null);
+	                LoginSystemWindow login = new LoginSystemWindow();
+					LoginSystemWindow.main(null);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid e-mail or password", "Sign Up Error", JOptionPane.ERROR_MESSAGE);
+					sameEmailError.setText(null);
 					newEmailField.setText(null);
 					newPasswordField.setText(null);
 				}
@@ -152,11 +170,12 @@ public class FacebookSignUpSystem {
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				frame.setVisible(false);
                 frame.dispose();
                 
-				FacebookLoginSystem login = new FacebookLoginSystem();
-				FacebookLoginSystem.main(null);
+				LoginSystemWindow login = new LoginSystemWindow();
+				LoginSystemWindow.main(null);
 				
 			}
 		});
@@ -186,6 +205,6 @@ public class FacebookSignUpSystem {
 		frame.getContentPane().add(separator_1);
 		
 		
+		
 	}
-
 }

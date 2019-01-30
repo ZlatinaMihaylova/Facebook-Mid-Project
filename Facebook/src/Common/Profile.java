@@ -15,7 +15,6 @@ public class Profile {
 		
 		this.information = new UserInformation();
 		this.name = name;
-		
 	}
 
 	public String getName() {

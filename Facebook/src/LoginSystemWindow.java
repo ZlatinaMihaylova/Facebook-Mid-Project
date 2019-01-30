@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JSeparator;
 
-public class FacebookLoginSystem {
+public class LoginSystemWindow {
 
 	private JFrame frame;
 	private JTextField emailField;
@@ -30,7 +30,7 @@ public class FacebookLoginSystem {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FacebookLoginSystem window = new FacebookLoginSystem();
+					LoginSystemWindow window = new LoginSystemWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +42,7 @@ public class FacebookLoginSystem {
 	/**
 	 * Create the application.
 	 */
-	public FacebookLoginSystem() {
+	public LoginSystemWindow() {
 		this.facebookSystem = FacebookSystem.getFacebookSystem();
 		initialize();
 	}
@@ -72,12 +72,12 @@ public class FacebookLoginSystem {
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		emailField = new JTextField();
-		emailField.setBounds(171, 77, 185, 19);
+		emailField.setBounds(171, 73, 186, 27);
 		frame.getContentPane().add(emailField);
 		emailField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(171, 116, 185, 22);
+		passwordField.setBounds(171, 115, 186, 27);
 		frame.getContentPane().add(passwordField);
 		
 		JButton btnNewButton = new JButton("Login");
@@ -89,19 +89,26 @@ public class FacebookLoginSystem {
 				String password = passwordField.getText();
 				
 				User user = FacebookSystem.getFacebookSystem().logIn(email, password);
-				if ( user == null ) {
-					JOptionPane.showMessageDialog(null, "No such user exixts", "Login Error", JOptionPane.ERROR_MESSAGE);
+				
+				if  (!FacebookSystem.getFacebookSystem().containsEmail(email) ) {
+					JOptionPane.showMessageDialog(null, "The email you’ve entered doesn’t match any account. Sign up for an account.", "Login Error", JOptionPane.ERROR_MESSAGE);
 					emailField.setText(null);
 					passwordField.setText(null);
 				}
+				
+				else if ( user == null ) {
+					JOptionPane.showMessageDialog(null, "Wrong password.", "Login Error", JOptionPane.ERROR_MESSAGE);
+					passwordField.setText(null);
+				}
+
+				
 				else {
-					System.out.println("Welcome " + user.toString());
 					
 					frame.setVisible(false);
 	                frame.dispose();
 	                
-					FacebookProfile profile = new FacebookProfile(user.getProfile());
-					FacebookProfile.main(user.getProfile()); 
+					ProfileWindow profile = new ProfileWindow(user.getProfile());
+					ProfileWindow.main(user.getProfile()); 
 
 				}
 			}
@@ -116,8 +123,8 @@ public class FacebookLoginSystem {
 				frame.setVisible(false);
                 frame.dispose();
 				
-				FacebookSignUpSystem signUp = new FacebookSignUpSystem();
-				FacebookSignUpSystem.main(null);
+				SignUpSystemWindow signUp = new SignUpSystemWindow();
+				SignUpSystemWindow.main(null);
 				
 			}
 		});
