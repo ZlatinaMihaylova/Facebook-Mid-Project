@@ -1,8 +1,9 @@
+package Common;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+//import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 public class FacebookSystem {
 	
@@ -30,7 +31,7 @@ public class FacebookSystem {
 		this.users.add(user);
 	}
 
-	User logIn(String email, String password) {
+	public User logIn(String email, String password) {
 		
 		for (User user : users) {
 			if ( user.getEmail().equals(email) && user.getPassword().equals(password)) {
