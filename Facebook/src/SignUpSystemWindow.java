@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Common.FacebookSystem;
 import Common.User;
 
 import javax.swing.JPasswordField;

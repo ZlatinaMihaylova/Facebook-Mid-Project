@@ -27,7 +27,7 @@ public class FacebookSystem {
 		}
 	}
 	
-	void addNewUser(User user) {
+	public void addNewUser(User user) {
 		this.users.add(user);
 	}
 
@@ -41,7 +41,7 @@ public class FacebookSystem {
 		return null;
 	}
 	
-	boolean containsEmail(String email) {
+	public boolean containsEmail(String email) {
 		for (User user : users) {
 			if ( user.getEmail().equals(email)) {
 				return true;

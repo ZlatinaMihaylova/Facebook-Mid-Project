@@ -3,6 +3,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import Common.Profile;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;

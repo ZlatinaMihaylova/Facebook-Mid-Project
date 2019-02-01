@@ -16,7 +16,7 @@ public class UserInformation {
 		this.hometown = "";
 	}
 	
-	void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) {
+	public void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) {
 		this.highSchool = highSchool;
 		this.university = university;
 		this.employer = employer;

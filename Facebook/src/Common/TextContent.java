@@ -34,4 +34,18 @@ public abstract class TextContent {
 		}
 		this.content = content;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof TextContent) {
+			return this.author.equals(((TextContent)obj).author) && this.content.equals(((TextContent)obj).content) && this.time.equals(((TextContent)obj).time);
+		}
+		return false;
+	}
+	@Override
+	public int hashCode() {
+		return this.author.hashCode()*this.content.hashCode()*this.time.hashCode();
+	}
+	
+	
 }
