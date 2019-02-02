@@ -1,16 +1,14 @@
 package Common;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
 
 public abstract class TextContent {
 
 	private Profile author;
 	private String content;
 	private LocalDateTime time;
-	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	
 	TextContent (String content, Profile author) throws Exception {
 		this.setContent(content);
@@ -35,6 +33,22 @@ public abstract class TextContent {
 		this.content = content;
 	}
 	
+	String getStringTime() {
+		return this.time.format(formatter);
+	}
+	
+	Profile getAuthor() {
+		return author;
+	}
+	
+	String getContent() {
+		return content;
+	}
+
+	LocalDateTime getTime() {
+		return time;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof TextContent) {
