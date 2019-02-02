@@ -2,25 +2,30 @@ package Common;
 import java.util.Scanner;
 
 public class User {
-
+	
+	
 	private String name;
 	private String email;
 	private String password;
-	
+	private boolean isLoggedIn;
 	private Profile profile;
-	
-	
+
 	public User(String name, String email, String password) {
 
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		
 		this.profile = new Profile(name);
-
-		
 	}
 
+	public void logIn() {
+		this.isLoggedIn = true;
+	}
+	
+	public void logOut() {
+		this.isLoggedIn = false;
+	}
+	
 	@Override
 	public int hashCode() {
 		return this.email.hashCode();
@@ -48,6 +53,8 @@ public class User {
 		return profile;
 	}
 
-
+	public String getName() {
+		return name;
+	}
 	
 }

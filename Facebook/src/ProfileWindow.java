@@ -3,7 +3,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 
+import Common.FacebookSystem;
 import Common.Profile;
+import Common.User;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,16 +20,16 @@ public class ProfileWindow {
 	private JFrame frame;
 	
 	
-	private Profile profile;
+	private User user;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Profile profile2) {
+	public static void main(User user) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProfileWindow window = new ProfileWindow(profile2);
+					ProfileWindow window = new ProfileWindow(user);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,8 +41,8 @@ public class ProfileWindow {
 	/**
 	 * Create the application.
 	 */
-	public ProfileWindow(Profile profile) {
-		this.profile = profile;
+	public ProfileWindow(User user) {
+		this.user = user;
 		initialize();
 	}
 
@@ -57,7 +59,7 @@ public class ProfileWindow {
 		scrollBar.setBounds(601, 0, 21, 433);
 		frame.getContentPane().add(scrollBar);
 		
-		JLabel lblNewLabel = new JLabel(this.profile.getName());
+		JLabel lblNewLabel = new JLabel(this.user.getName());
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(12, 13, 332, 25);
 		frame.getContentPane().add(lblNewLabel);
@@ -87,23 +89,23 @@ public class ProfileWindow {
 		lblNewLabel_6.setBounds(12, 246, 103, 16);
 		frame.getContentPane().add(lblNewLabel_6);
 		
-		JLabel highSchoolInfo = new JLabel(this.profile.getInformation().getHighSchool());
+		JLabel highSchoolInfo = new JLabel(this.user.getProfile().getHighSchool());
 		highSchoolInfo.setBounds(127, 130, 138, 16);
 		frame.getContentPane().add(highSchoolInfo);
 		
-		JLabel UniversityInfo = new JLabel(this.profile.getInformation().getUniversity());
+		JLabel UniversityInfo = new JLabel(this.user.getProfile().getUniversity());
 		UniversityInfo.setBounds(127, 159, 138, 16);
 		frame.getContentPane().add(UniversityInfo);
 		
-		JLabel EmployeerInfo = new JLabel(this.profile.getInformation().getEmployer());
+		JLabel EmployeerInfo = new JLabel(this.user.getProfile().getEmployer());
 		EmployeerInfo.setBounds(127, 188, 138, 16);
 		frame.getContentPane().add(EmployeerInfo);
 		
-		JLabel CurrentCityInfo = new JLabel(this.profile.getInformation().getCurrentCity());
+		JLabel CurrentCityInfo = new JLabel(this.user.getProfile().getCurrentCity());
 		CurrentCityInfo.setBounds(127, 217, 138, 16);
 		frame.getContentPane().add(CurrentCityInfo);
 		
-		JLabel HometownInfo = new JLabel(this.profile.getInformation().getHometown());
+		JLabel HometownInfo = new JLabel(this.user.getProfile().getHometown());
 		HometownInfo.setBounds(127, 246, 138, 16);
 		frame.getContentPane().add(HometownInfo);
 		
@@ -114,8 +116,8 @@ public class ProfileWindow {
 				frame.setVisible(false);
                 frame.dispose();
 				
-				ChangeUserInformationWindow changeInformation = new ChangeUserInformationWindow(profile);
-				ChangeUserInformationWindow.main(profile);
+				ChangeUserInformationWindow changeInformation = new ChangeUserInformationWindow(user);
+				ChangeUserInformationWindow.main(user);
 				
 			}
 		});
@@ -131,12 +133,11 @@ public class ProfileWindow {
 					
 					frame.setVisible(false);
 	                frame.dispose();
-	                
+	               
+	                FacebookSystem.getFacebookSystem().logOut(user);
 	                LoginSystemWindow newLogin = new LoginSystemWindow();
 	                LoginSystemWindow.main(null);
-					
-				}
-				
+				}			
 			}
 		});
 		logoutButton.setBounds(492, 16, 97, 25);

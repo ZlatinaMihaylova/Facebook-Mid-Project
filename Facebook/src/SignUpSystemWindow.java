@@ -146,7 +146,7 @@ public class SignUpSystemWindow {
 				else if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
 					sameEmailError.setText(null);
 					User user = new User(name, email, password);
-					FacebookSystem.getFacebookSystem().addNewUser(user);
+					FacebookSystem.getFacebookSystem().register(user);
 					
 					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Completed", JOptionPane.PLAIN_MESSAGE);
 					

@@ -27,7 +27,18 @@ public class FacebookSystem {
 		}
 	}
 	
-	public void addNewUser(User user) {
+	HashSet<Profile> searchByName(String name) {
+		Set<Profile> profiles = new HashSet<Profile>();
+		for (User a : users) {
+			if (a.getName().toLowerCase().contains(name.toLowerCase()) ) {
+				profiles.add(a.getProfile());
+			}
+			
+		}
+		return (HashSet<Profile>) profiles;
+	}
+	
+	public void register(User user) {
 		this.users.add(user);
 	}
 
@@ -39,6 +50,9 @@ public class FacebookSystem {
 			}
 		}
 		return null;
+	}
+	public void logOut(User user) {
+		user.logOut();
 	}
 	
 	public boolean containsEmail(String email) {

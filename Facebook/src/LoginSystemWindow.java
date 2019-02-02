@@ -95,21 +95,18 @@ public class LoginSystemWindow {
 					emailField.setText(null);
 					passwordField.setText(null);
 				}
-				
 				else if ( user == null ) {
 					JOptionPane.showMessageDialog(null, "Wrong password.", "Login Error", JOptionPane.ERROR_MESSAGE);
 					passwordField.setText(null);
 				}
-
-				
 				else {
 					
 					frame.setVisible(false);
 	                frame.dispose();
 	                
-					ProfileWindow profile = new ProfileWindow(user.getProfile());
-					ProfileWindow.main(user.getProfile()); 
-
+	                user.logIn();
+					ProfileWindow profile = new ProfileWindow(user);
+					ProfileWindow.main(user); 
 				}
 			}
 		});
@@ -125,7 +122,6 @@ public class LoginSystemWindow {
 				
 				SignUpSystemWindow signUp = new SignUpSystemWindow();
 				SignUpSystemWindow.main(null);
-				
 			}
 		});
 		btnNewButton_1.setBounds(178, 183, 132, 44);
