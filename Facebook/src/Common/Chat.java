@@ -35,14 +35,13 @@ public class Chat {
 		this.messages = Collections.synchronizedSortedSet(new TreeSet<Message>(comparator));
 	}
 
-	void addMessage(String content, Profile author) throws Exception { //adding new message to the chat
+	void sendMessage(String content, Profile author) throws Exception { //adding new message to the chat
 		this.messages.add(new Message(content, author));
 	}
+	
 	void printChat() {
 		this.messages.forEach(System.out::println);
 	}
-	
-	
 	
 	private void setSender(Profile sender) throws Exception {
 		if(sender == null) {
@@ -57,6 +56,18 @@ public class Chat {
 		}
 		this.receiver = receiver;
 	}
+
+	LocalDateTime getLastUpdate() {
+		return lastUpdate;
+	}
+
+	boolean hasParticipant(Profile profile) {
+		if(this.sender.equals(profile) || this.receiver.equals(profile)) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 	

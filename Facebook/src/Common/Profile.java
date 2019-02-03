@@ -1,7 +1,9 @@
 package Common;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+
 
 public class Profile {
 	
@@ -16,7 +18,7 @@ public class Profile {
 	private Set<Profile> friendRequest;
 //	private Set<Photo> photos;
 	private Set<Post> posts;
-//	private Set<Message> messages;
+	private Set<Chat> chats;
 
 	public Profile(String name) {
 		
@@ -28,8 +30,9 @@ public class Profile {
 		this.currentCity = "";
 		this.hometown = "";
 		
-		this.friends = new HashSet<Profile>();
+		this.friends = Collections.synchronizedSet(new HashSet<Profile>());
 		this.friendRequest = new HashSet<Profile>();
+		this.chats = Collections.synchronizedSet(new TreeSet<Chat>((Chat chat1,Chat chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate())));
 	}
 	
 	public HashSet<Profile> searchForProfile(String name) {
@@ -54,6 +57,18 @@ public class Profile {
 			this.friends.add(profile);
 		}
 		
+	}
+	
+	public Chat startChat(Profile profile) throws Exception {   //find already existing chat or create a new one
+		for(Chat chat : this.chats) {
+			if(chat.hasParticipant(profile)) {
+				return chat;
+			}
+		}
+		Chat chat = new Chat(this, profile);
+		this.chats.add(chat);
+		profile.chats.add(chat);
+		return chat;
 	}
 	
 	public void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) {
