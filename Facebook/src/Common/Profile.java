@@ -13,6 +13,11 @@ public class Profile {
 	private String currentCity;
 	private String hometown;
 	
+	private User user;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	private String name;
 	private Set<Profile> friends;
 	private Set<Profile> friendRequest;
@@ -72,11 +77,11 @@ public class Profile {
 	}
 	
 	public void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) {
-		this.highSchool = highSchool;
-		this.university = university;
-		this.employer = employer;
-		this.currentCity = currentCity;
-		this.hometown = hometown;
+		this.setHighSchool(highSchool);
+		this.setUniversity(university);
+		this.setEmployer(employer);
+		this.setCurrentCity(currentCity);
+		this.setHometown(hometown);
 	}
 
 	public String getName() {
@@ -101,6 +106,42 @@ public class Profile {
 
 	public String getHometown() {
 		return hometown;
+	}
+
+	public void setHighSchool(String highSchool) {
+		if (highSchool != null ) {
+			this.highSchool = highSchool;
+		}
+		
+	}
+
+	public void setUniversity(String university) {
+		if (university != null ) {
+			this.university = university;
+		}
+	}
+
+	public void setEmployer(String employer) {
+		if (employer != null ) {
+			this.employer = employer;
+		}
+	}
+
+	public void setCurrentCity(String currentCity) {
+		if (currentCity != null ) {
+			this.currentCity = currentCity;
+		}
+	}
+
+	public void setHometown(String hometown) {
+		if (hometown != null ) {
+			this.hometown = hometown;
+		}
+	}
+
+	@Override
+	public String toString() {
+		return this.name ;
 	}
 	
 

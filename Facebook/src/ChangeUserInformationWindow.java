@@ -21,16 +21,16 @@ public class ChangeUserInformationWindow {
 	private JTextField updateCurrentCityField;
 	private JTextField updateHometownField;
 	
-	private User user;
+	private Profile profle;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(User user) {
+	public static void main(Profile profle) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChangeUserInformationWindow window = new ChangeUserInformationWindow(user);
+					ChangeUserInformationWindow window = new ChangeUserInformationWindow(profle);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,8 +42,8 @@ public class ChangeUserInformationWindow {
 	/**
 	 * Create the application.
 	 */
-	public ChangeUserInformationWindow(User user) {
-		this.user = user;
+	public ChangeUserInformationWindow(Profile profle) {
+		this.profle = profle;
 		initialize();
 	}
 
@@ -81,27 +81,27 @@ public class ChangeUserInformationWindow {
 		lblNewLabel_5.setBounds(54, 168, 102, 16);
 		frame.getContentPane().add(lblNewLabel_5);
 		
-		updateHighSchoolField = new JTextField(this.user.getProfile().getHighSchool());
+		updateHighSchoolField = new JTextField(this.profle.getHighSchool());
 		updateHighSchoolField.setBounds(168, 49, 164, 22);
 		frame.getContentPane().add(updateHighSchoolField);
 		updateHighSchoolField.setColumns(10);
 		
-		updateUniversityField = new JTextField(this.user.getProfile().getUniversity());
+		updateUniversityField = new JTextField(this.profle.getUniversity());
 		updateUniversityField.setBounds(168, 78, 164, 22);
 		frame.getContentPane().add(updateUniversityField);
 		updateUniversityField.setColumns(10);
 		
-		updateEmployerField = new JTextField(this.user.getProfile().getEmployer());
+		updateEmployerField = new JTextField(this.profle.getEmployer());
 		updateEmployerField.setBounds(168, 107, 164, 22);
 		frame.getContentPane().add(updateEmployerField);
 		updateEmployerField.setColumns(10);
 		
-		updateCurrentCityField = new JTextField(this.user.getProfile().getCurrentCity());
+		updateCurrentCityField = new JTextField(this.profle.getCurrentCity());
 		updateCurrentCityField.setBounds(168, 136, 164, 22);
 		frame.getContentPane().add(updateCurrentCityField);
 		updateCurrentCityField.setColumns(10);
 		
-		updateHometownField = new JTextField(this.user.getProfile().getHometown());
+		updateHometownField = new JTextField(this.profle.getHometown());
 		updateHometownField.setBounds(168, 165, 164, 22);
 		frame.getContentPane().add(updateHometownField);
 		updateHometownField.setColumns(10);
@@ -110,14 +110,14 @@ public class ChangeUserInformationWindow {
 		updateInformationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				user.getProfile().updateInformation(updateHighSchoolField.getText(), updateUniversityField.getText(),
+				profle.updateInformation(updateHighSchoolField.getText(), updateUniversityField.getText(),
 						updateEmployerField.getText(), updateCurrentCityField.getText(), updateHometownField.getText());
 				
 				frame.setVisible(false);
                 frame.dispose();
                 
-                ProfileWindow changeInformation = new ProfileWindow(user);
-                ProfileWindow.main(user);
+                ProfileWindow changeInformation = new ProfileWindow(profle, true);
+                ProfileWindow.main(profle,true);
 			}
 		});
 		updateInformationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
