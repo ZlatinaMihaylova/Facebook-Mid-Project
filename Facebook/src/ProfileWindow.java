@@ -28,7 +28,7 @@ public class ProfileWindow {
 	
 	
 	private Profile profile;
-	private User user;
+	private static User loggedInUser;
 	private boolean isItMyProfile;
 
 	/**
@@ -55,6 +55,14 @@ public class ProfileWindow {
 		this.isItMyProfile = isItMyProfile;
 		initialize();
 	}
+	
+	public static void setLoggedInUser(User loggedInUser) {
+		ProfileWindow.loggedInUser = loggedInUser;
+	}
+	
+	public static User getLoggedInUser() {
+		return loggedInUser;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -65,9 +73,6 @@ public class ProfileWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(601, 0, 21, 433);
-		frame.getContentPane().add(scrollBar);
 		
 		JLabel lblNewLabel = new JLabel(this.profile.toString());
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -119,6 +124,20 @@ public class ProfileWindow {
 		HometownInfo.setBounds(127, 246, 138, 16);
 		frame.getContentPane().add(HometownInfo);
 		
+		JButton homePageButton = new JButton("Home page");
+		homePageButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frame.setVisible(false);
+                frame.dispose();
+				
+				HomePageWindow homePageWindow = new HomePageWindow();
+				HomePageWindow.main(null);
+			}
+		});
+		homePageButton.setBounds(356, 16, 145, 25);
+		frame.getContentPane().add(homePageButton);
+		
 		if ( this.isItMyProfile) {
 			JButton changeInformationButton = new JButton("Change Information");
 			changeInformationButton.addActionListener(new ActionListener() {
@@ -145,8 +164,10 @@ public class ProfileWindow {
 						
 						frame.setVisible(false);
 		                frame.dispose();
+		                
+		                setLoggedInUser(null);
 		               
-		                FacebookSystem.getFacebookSystem().logOut(user);
+		                FacebookSystem.getFacebookSystem().logOut(loggedInUser);
 		                LoginSystemWindow newLogin = new LoginSystemWindow();
 		                LoginSystemWindow.main(null);
 					}			
@@ -156,52 +177,10 @@ public class ProfileWindow {
 			frame.getContentPane().add(logoutButton);
 		}
 
-		JTextField searchFiled = new JTextField();
-		searchFiled.setBounds(251, 113, 188, 22);
-		frame.getContentPane().add(searchFiled);
-		searchFiled.setColumns(10);
 		
-		JList list = new JList();
-		list.setBounds(251, 130, 188, 100);
-		JScrollPane listScroller = new JScrollPane(list);
-		listScroller.setPreferredSize(new Dimension(250, 80));
-		
-		JButton searchButton = new JButton("Search");
-		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				String searched = searchFiled.getText();
-				HashSet<Profile> results = new HashSet<Profile>();
-				
-				results = profile.searchForProfile(searched);
-				
-				DefaultListModel listModel   = new DefaultListModel();
-				for (Profile profile: results) {
-					listModel.addElement(profile);
-				}
-				
-				list.setModel(listModel);
-				frame.getContentPane().add(list);
-				
-				JButton viewProfile = new JButton("View profile");
-				viewProfile.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						ProfileWindow profile = new ProfileWindow((Profile)list.getSelectedValue(), false);
-						ProfileWindow.main((Profile)list.getSelectedValue(),false); 
-					}
-				});
-				viewProfile.setBounds(442, 140, 97, 25);
-				frame.getContentPane().add(viewProfile);
-				
-				
-				
-				
-			}
-		});
-		searchButton.setBounds(442, 112, 97, 25);
-		frame.getContentPane().add(searchButton);
 		
 		
 	}
+
+	
 }

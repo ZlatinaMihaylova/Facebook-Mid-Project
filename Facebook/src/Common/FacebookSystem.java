@@ -27,7 +27,7 @@ public class FacebookSystem {
 		}
 	}
 	
-	HashSet<Profile> searchByName(String name) {
+	public HashSet<Profile> searchByName(String name) {
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (User a : users) {
 			if (a.getName().toLowerCase().contains(name.toLowerCase()) ) {
