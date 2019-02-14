@@ -1,5 +1,12 @@
 package Common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,7 +52,7 @@ public class Post extends TextContent implements Likeable{
 	
 	private List<Comment> comments;
 	private Set<Profile> likes;
-	private String photo;
+	private Photo photo;
 	
 	 Post(String content, Profile author) throws Exception {
 		super(content, author);
@@ -56,9 +63,9 @@ public class Post extends TextContent implements Likeable{
 		this.comments = Collections.synchronizedList(listOfComments);
 	}
 	 
-	 Post(String content, Profile author, String photo) throws Exception {
+	 Post(String content, Profile author, String photoPath) throws Exception {
 		 this(content, author);
-		 this.setPhoto(photo);
+		 this.uploadPhoto(photoPath);
 	 }
 	 
 	 void writeComment(String content, Profile author) throws Exception {  //add new comment to post
@@ -81,11 +88,22 @@ public class Post extends TextContent implements Likeable{
 			this.likes.add(profile);
 	}
 
-	private void setPhoto(String photo) throws Exception {
-		if(photo == null) {
-			throw new Exception("Invalid photo!");
+	private void uploadPhoto(String photoPath) throws Exception {
+		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
+			throw new Exception("Invalid photo path!");
 		}
-		this.photo = photo;
+		File uploadingPhoto = new File(photoPath);
+		File uploadedPhoto = new File("src\\resources\\"+uploadingPhoto.hashCode()+".jpg");
+		uploadedPhoto.createNewFile();
+		try (InputStream is = new BufferedInputStream(new FileInputStream(uploadingPhoto));
+			OutputStream os = new BufferedOutputStream(new FileOutputStream(uploadedPhoto))) {
+				int b = is.read();
+				while (b != -1) {
+					os.write(b);
+					b = is.read();
+				}
+		}
+		this.photo = new Photo(uploadedPhoto);
 	}
 
 	

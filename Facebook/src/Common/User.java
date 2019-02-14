@@ -1,5 +1,4 @@
 package Common;
-import java.util.Scanner;
 
 public class User {
 	
@@ -16,7 +15,6 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.profile = new Profile(name);
-		this.profile.setUser(this);
 	}
 
 	public void logIn() {

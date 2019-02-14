@@ -12,23 +12,16 @@ public class Profile {
 	private String employer;
 	private String currentCity;
 	private String hometown;
-	
-	private User user;
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	private String name;
+	
 	private Set<Profile> friends;
 	private Set<Profile> friendRequest;
-//	private Set<Photo> photos;
+	private Set<Photo> photos;
 	private Set<Post> posts;
 	private Set<Chat> chats;
 
 	public Profile(String name) {
-		
 		this.name = name;
-		
 		this.highSchool = "";
 		this.university = "";
 		this.employer = "";
