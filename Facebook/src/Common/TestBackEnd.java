@@ -12,9 +12,17 @@ public class TestBackEnd {
 		String image = "picture.png";
 		Profile profile = new Profile("sadasd");
 		
-		Post post = new Post("asdfasdfsd", profile, "C:\\Users\\Ivan\\Desktop\\IMG_20190213_103738.jpg");
-		post.addLike(profile);
+//		Post post = new Post("asdfasdfsd", profile, "C:\\Users\\Ivan\\Desktop\\IMG_20190213_103738.jpg");
+//		post.addLike(profile);
 		
+		Set<LocalDateTime> set = new TreeSet<LocalDateTime>();
+		set.add(LocalDateTime.now());
+		Thread.sleep(200);
+		set.add(LocalDateTime.now());
+		Thread.sleep(200);
+		set.add(LocalDateTime.now());
+		
+		set.forEach(System.out::println);
 	}
 
 }

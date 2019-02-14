@@ -3,7 +3,7 @@ import Common.User;
 
 public class Demo {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		LoginSystemWindow login = new LoginSystemWindow();
 		LoginSystemWindow.main(null);

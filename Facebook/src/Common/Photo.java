@@ -19,7 +19,7 @@ public class Photo {
 		return file;
 	}
 	
-	private LocalDateTime getTime() {
+	 LocalDateTime getTime() {
 		return time;
 	}
 	private void setFile(File file) throws Exception {

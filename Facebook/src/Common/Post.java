@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,14 +54,13 @@ public class Post extends TextContent implements Likeable{
 	private List<Comment> comments;
 	private Set<Profile> likes;
 	private Photo photo;
+	private LocalDateTime time;
 	
 	 Post(String content, Profile author) throws Exception {
 		super(content, author);
-		Set<Profile> listOfLikes = new HashSet<Profile>();
-		this.likes = Collections.synchronizedSet(listOfLikes);
-		
-		List<Comment> listOfComments = new ArrayList<Comment>();
-		this.comments = Collections.synchronizedList(listOfComments);
+		this.time = LocalDateTime.now();
+		this.comments = Collections.synchronizedList(new ArrayList<Comment>());
+		this.likes = Collections.synchronizedSet(new HashSet<Profile>());
 	}
 	 
 	 Post(String content, Profile author, String photoPath) throws Exception {
@@ -106,6 +106,11 @@ public class Post extends TextContent implements Likeable{
 		this.photo = new Photo(uploadedPhoto);
 	}
 
+	public LocalDateTime getTime() {
+		return time;
+	}
+	
+	
 	
 	 
 	 

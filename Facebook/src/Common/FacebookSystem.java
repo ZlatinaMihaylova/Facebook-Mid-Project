@@ -14,7 +14,7 @@ public class FacebookSystem {
 		this.users = new HashSet<User>();
 	}
 	
-	public static FacebookSystem getFacebookSystem() {
+	public synchronized static FacebookSystem getFacebookSystem() {
 		if ( FacebookSystem.facebookSystem == null ) {
 			FacebookSystem.facebookSystem = new FacebookSystem();
 		}

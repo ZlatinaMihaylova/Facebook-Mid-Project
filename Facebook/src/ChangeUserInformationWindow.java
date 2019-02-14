@@ -101,7 +101,7 @@ public class ChangeUserInformationWindow {
 		frame.getContentPane().add(updateCurrentCityField);
 		updateCurrentCityField.setColumns(10);
 		
-		updateHometownField = new JTextField(this.profle.getHometown());
+		updateHometownField = new JTextField(this.profle.getBirthPlace());
 		updateHometownField.setBounds(168, 165, 164, 22);
 		frame.getContentPane().add(updateHometownField);
 		updateHometownField.setColumns(10);
@@ -110,8 +110,13 @@ public class ChangeUserInformationWindow {
 		updateInformationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				profle.updateInformation(updateHighSchoolField.getText(), updateUniversityField.getText(),
-						updateEmployerField.getText(), updateCurrentCityField.getText(), updateHometownField.getText());
+				try {
+					profle.updateInformation(updateHighSchoolField.getText(), updateUniversityField.getText(),
+							updateEmployerField.getText(), updateCurrentCityField.getText(), updateHometownField.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				frame.setVisible(false);
                 frame.dispose();
