@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 
-public class Profile {
+public abstract class Profile {
 	
 	private String name;
 	private String highSchool;
@@ -21,7 +21,8 @@ public class Profile {
 	private String employer;
 	private String currentCity;
 	private String birthPlace;
-	private Photo profilePhoto;
+	private Photo profilePicture;
+	private NewsFeed newsFeed;
 	
 	private Set<Photo> photos;
 	private Set<Post> posts;
@@ -39,6 +40,7 @@ public class Profile {
 		this.employer = "";
 		this.currentCity = "";
 		this.birthPlace = "";
+		this.newsFeed = new NewsFeed();
 		
 		this.chats = Collections.synchronizedSet(new TreeSet<Chat>(chatComparator));
 		this.posts = new TreeSet<Post>(postComparator);			//postove i snimki mogat da se dobavqt samo ot 1 nishka
@@ -62,6 +64,8 @@ public class Profile {
 		profile.chats.add(chat);
 		return chat;
 	}
+	
+	
 	
 	public void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) throws Exception {
 		this.setHighSchool(highSchool);
@@ -125,24 +129,29 @@ public class Profile {
 		}
 		this.name = name;
 	}
-	public void setProfilePicture(String photoPath) throws Exception {
-		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
-			throw new Exception("Invalid photo path!");
+	
+	public void addNewPhoto(Photo photo) throws Exception {
+		if(photo == null) {
+			throw new Exception("Photo can't be null!");
 		}
-		File uploadingPhoto = new File(photoPath);
-		File uploadedPhoto = new File("src\\resources\\"+uploadingPhoto.hashCode()+".jpg");
-		uploadedPhoto.createNewFile();
-		try (InputStream is = new BufferedInputStream(new FileInputStream(uploadingPhoto));
-			OutputStream os = new BufferedOutputStream(new FileOutputStream(uploadedPhoto))) {
-				int b = is.read();
-				while (b != -1) {
-					os.write(b);
-					b = is.read();
-				}
-		}
-		this.profilePhoto = new Photo(uploadedPhoto);
+		this.photos.add(photo);
 	}
-
+	public void addNewPostToProfile(Post post) throws Exception {
+		if(post == null) {
+			throw new Exception("Post can't be null!");
+		}
+		this.posts.add(post);
+	}
+	public void addPostToNewsFeed(Post post) throws Exception {
+		this.newsFeed.addPost(post);
+	}
+	public void setProfilePicture(Photo photo) throws Exception {
+		if(!this.photos.contains(photo)) {
+			throw new Exception("The photo should be uploaded by you in order to be your profile picture!");
+		}
+		this.profilePicture = photo;
+	}
+	
 	@Override
 	public String toString() {
 		return this.name ;

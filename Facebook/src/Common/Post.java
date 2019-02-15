@@ -63,9 +63,9 @@ public class Post extends TextContent implements Likeable{
 		this.likes = Collections.synchronizedSet(new HashSet<Profile>());
 	}
 	 
-	 Post(String content, Profile author, String photoPath) throws Exception {
+	 Post(String content, Profile author, Photo photo) throws Exception {
 		 this(content, author);
-		 this.uploadPhoto(photoPath);
+		 this.setPhoto(photo);
 	 }
 	 
 	 void writeComment(String content, Profile author) throws Exception {  //add new comment to post
@@ -73,11 +73,10 @@ public class Post extends TextContent implements Likeable{
 	 }
 	 
 	 void deleteComment(Comment comment) throws Exception {  // delete comment from post if existing
-		 if(this.comments.contains(comment)) {
-			 comments.remove(comment);
-		 } else {
-			 throw new Exception("Comment could not be found int this post!");
-		 }
+		 if(!this.comments.contains(comment)) {
+			 throw new Exception("Comment could not be found in this post!");
+		 } 
+		 comments.remove(comment);
 	 }
 	 
 	 @Override
@@ -87,23 +86,32 @@ public class Post extends TextContent implements Likeable{
 			}
 			this.likes.add(profile);
 	}
+	 
+	 
 
-	private void uploadPhoto(String photoPath) throws Exception {
-		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
-			throw new Exception("Invalid photo path!");
+//	private void uploadPhoto(String photoPath) throws Exception {
+//		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
+//			throw new Exception("Invalid photo path!");
+//		}
+//		File uploadingPhoto = new File(photoPath);
+//		File uploadedPhoto = new File("src\\resources\\"+uploadingPhoto.hashCode()+".jpg");
+//		uploadedPhoto.createNewFile();
+//		try (InputStream is = new BufferedInputStream(new FileInputStream(uploadingPhoto));
+//			OutputStream os = new BufferedOutputStream(new FileOutputStream(uploadedPhoto))) {
+//				int b = is.read();
+//				while (b != -1) {
+//					os.write(b);
+//					b = is.read();
+//				}
+//		}
+//		this.photo = new Photo(uploadedPhoto);
+//	}
+
+	private void setPhoto(Photo photo) throws Exception {
+		if(photo == null) {
+			throw new Exception("You can't add null photo to post!");
 		}
-		File uploadingPhoto = new File(photoPath);
-		File uploadedPhoto = new File("src\\resources\\"+uploadingPhoto.hashCode()+".jpg");
-		uploadedPhoto.createNewFile();
-		try (InputStream is = new BufferedInputStream(new FileInputStream(uploadingPhoto));
-			OutputStream os = new BufferedOutputStream(new FileOutputStream(uploadedPhoto))) {
-				int b = is.read();
-				while (b != -1) {
-					os.write(b);
-					b = is.read();
-				}
-		}
-		this.photo = new Photo(uploadedPhoto);
+		this.photo = photo;
 	}
 
 	public LocalDateTime getTime() {

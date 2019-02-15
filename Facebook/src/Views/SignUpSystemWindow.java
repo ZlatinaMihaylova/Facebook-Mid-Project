@@ -1,3 +1,4 @@
+package Views;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -145,8 +146,16 @@ public class SignUpSystemWindow {
 				
 				else if (SignUpSystemWindow.verifyEmail(email) && SignUpSystemWindow.verifyPassword(password)) {
 					sameEmailError.setText(null);
-					User user = new User(name, email, password);
-					FacebookSystem.getFacebookSystem().register(user);
+					User user;
+					try {
+						user = new User(name, email, password);
+						FacebookSystem.getFacebookSystem().register(user);
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					
 					JOptionPane.showMessageDialog(null, "Welcome to Facebook!", "Sign Up Completed", JOptionPane.PLAIN_MESSAGE);
 					

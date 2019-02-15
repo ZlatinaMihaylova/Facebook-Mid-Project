@@ -1,10 +1,17 @@
 package Common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User extends Profile{
+public class User extends Profile implements Postable{
 	private enum GenderType{MALE, FEMALE};
 	
 	
@@ -14,16 +21,16 @@ public class User extends Profile{
 	private boolean isLoggedIn;
 	private GenderType gender;
 	
-	private Set<Profile> friends;
+	private Set<User> friends;
 	private Set<Profile> friendRequest;
 
 	public User(String name, String email, String password) throws Exception {
 		super(name);
 		this.email = email;
 		this.password = password;
-		this.setGender(gender);
+//		this.setGender(gender);
 		
-		this.friends = Collections.synchronizedSet(new HashSet<Profile>());
+		this.friends = Collections.synchronizedSet(new HashSet<User>());
 		this.friendRequest = new HashSet<Profile>();
 	}
 	
@@ -43,7 +50,7 @@ public class User extends Profile{
 	
 	public void AcceptFriendRequest(Profile profile) {
 		if ( profile != null) {
-			this.friends.add(profile);
+//			this.friends.add(profile);
 		}
 		
 	}
@@ -85,6 +92,38 @@ public class User extends Profile{
 	@Override
 	public String toString() {
 		return "User: " + this.getName();
+	}
+
+	private void sharePostWithFriends(Post post) throws Exception {
+		for(User friend : this.friends) {
+			friend.addPostToNewsFeed(post);
+		}
+	}
+
+	@Override
+	public void uploadNewPicture(String description, String picturePath) throws Exception {
+		if(description == null) {
+			throw new Exception("Invalid photo description!");
+		}
+		Photo photo = new Photo(PictureUploader.getInstanceOfPictureDownloader().upload(picturePath, this.email));
+		Post post = new Post(description, this, photo);
+		this.addNewPhoto(photo);
+		this.addNewPostToProfile(post);
+		this.addPostToNewsFeed(post);
+		this.sharePostWithFriends(post);
+	}
+
+
+
+	@Override
+	public void writeNewStatus(String content) throws Exception {
+		if(content == null) {
+			throw new Exception("Content of status can't be null");
+		}
+		Post post = new Post(content, this);
+		this.addNewPostToProfile(post);
+		this.addPostToNewsFeed(post);
+		this.sharePostWithFriends(post);
 	}
 
 	

@@ -1,3 +1,4 @@
+package Views;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -111,8 +112,8 @@ public class HomePageWindow {
 				frame.setVisible(false);
                 frame.dispose();
 				
-				ProfileWindow profile = new ProfileWindow(ProfileWindow.getLoggedInUser().getProfile(), true);
-				ProfileWindow.main(ProfileWindow.getLoggedInUser().getProfile(), true); 
+				ProfileWindow profile = new ProfileWindow(ProfileWindow.getLoggedInUser(), true);
+				ProfileWindow.main(ProfileWindow.getLoggedInUser(), true); 
 				
 				
 			}

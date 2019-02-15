@@ -1,4 +1,5 @@
 package Common;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -9,9 +10,12 @@ public class FacebookSystem {
 	
 	private static FacebookSystem facebookSystem = null;
 	private Set<User> users;
+	private Set<Page> pages;
+	
 	
 	private FacebookSystem() {
-		this.users = new HashSet<User>();
+		this.users = Collections.synchronizedSet(new HashSet<User>());
+		this.pages = Collections.synchronizedSet(new HashSet<Page>());
 	}
 	
 	public synchronized static FacebookSystem getFacebookSystem() {
@@ -30,10 +34,14 @@ public class FacebookSystem {
 	public HashSet<Profile> searchByName(String name) {
 		Set<Profile> profiles = new HashSet<Profile>();
 		for (User a : users) {
-			if (a.getName().toLowerCase().contains(name.toLowerCase()) ) {
-				profiles.add(a.getProfile());
+			if (a.getName().toLowerCase().equals(name.toLowerCase()) ) {
+				profiles.add(a);
 			}
-			
+		}
+		for(Page page : this.pages) {
+			if (page.getName().toLowerCase().equals(name.toLowerCase()) ) {
+				profiles.add(page);
+			}
 		}
 		return (HashSet<Profile>) profiles;
 	}

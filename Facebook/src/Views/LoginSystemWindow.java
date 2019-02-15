@@ -1,3 +1,4 @@
+package Views;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -105,8 +106,8 @@ public class LoginSystemWindow {
 	                frame.dispose();
 	                
 	                user.logIn();
-					ProfileWindow profile = new ProfileWindow(user.getProfile(),true);
-					ProfileWindow.main(user.getProfile(),true); 
+					ProfileWindow profile = new ProfileWindow(user,true);
+					ProfileWindow.main(user,true); 
 					profile.setLoggedInUser(user);
 				}
 			}
