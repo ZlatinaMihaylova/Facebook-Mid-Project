@@ -1,15 +1,10 @@
 package Common;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import Common.Page.PageCategory;
 
 public class User extends Profile implements Postable{
 	private enum GenderType{MALE, FEMALE};
@@ -23,6 +18,7 @@ public class User extends Profile implements Postable{
 	
 	private Set<User> friends;
 	private Set<Profile> friendRequest;
+	private Set<Page> createdPages;
 
 	public User(String name, String email, String password) throws Exception {
 		super(name);
@@ -31,7 +27,9 @@ public class User extends Profile implements Postable{
 //		this.setGender(gender);
 		
 		this.friends = Collections.synchronizedSet(new HashSet<User>());
+		this.createdPages = new HashSet<Page>();
 		this.friendRequest = new HashSet<Profile>();
+		
 	}
 	
 	
@@ -124,6 +122,11 @@ public class User extends Profile implements Postable{
 		this.addNewPostToProfile(post);
 		this.addPostToNewsFeed(post);
 		this.sharePostWithFriends(post);
+	}
+	
+	public void createNewPage(String name, PageCategory category) throws Exception {
+		Page page = new Page(name, this, category);
+		this.createdPages.add(page);
 	}
 
 	

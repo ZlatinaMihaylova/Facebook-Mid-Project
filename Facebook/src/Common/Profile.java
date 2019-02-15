@@ -1,11 +1,4 @@
 package Common;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -27,6 +20,7 @@ public abstract class Profile {
 	private Set<Photo> photos;
 	private Set<Post> posts;
 	private Set<Chat> chats;
+	private Set<Page> likedPages;
 	
 	//Comparators
 	Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
@@ -45,6 +39,7 @@ public abstract class Profile {
 		this.chats = Collections.synchronizedSet(new TreeSet<Chat>(chatComparator));
 		this.posts = new TreeSet<Post>(postComparator);			//postove i snimki mogat da se dobavqt samo ot 1 nishka
 		this.photos = new TreeSet<Photo>(photoComparator);
+		this.likedPages = new HashSet<Page>();
 	}
 	
 	public HashSet<Profile> searchForProfile(String name) {
@@ -52,8 +47,17 @@ public abstract class Profile {
 		return results;
 	}
 	
+	public void sendMessage(Profile profile, String content) throws Exception {
+		Chat chat = this.findChat(profile);
+		chat.sendMessage(content, this);
+	}
 	
-	public Chat startChat(Profile profile) throws Exception {   //find already existing chat or create a new one
+	public void printChat(Profile profile) throws Exception {
+		System.out.println("---------------Chat with "+profile.getName()+"---------------");
+		this.findChat(profile).printChat();
+	}
+	
+	private Chat findChat(Profile profile) throws Exception {   //find already existing chat or create a new one
 		for(Chat chat : this.chats) {
 			if(chat.hasParticipant(profile)) {
 				return chat;
@@ -151,6 +155,10 @@ public abstract class Profile {
 		}
 		this.profilePicture = photo;
 	}
+	public void addLikedPage(Page page) {
+		this.likedPages.add(page);
+	}
+	
 	
 	@Override
 	public String toString() {

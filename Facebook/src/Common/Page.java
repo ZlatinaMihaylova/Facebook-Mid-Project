@@ -6,14 +6,18 @@ import java.util.Set;
 
 public class Page extends Profile implements Postable, Likeable{
 
+	enum PageCategory{HOBBY, MEDIA, CELEBRITY, BUSINESS, PLACE, OTHER};
 	
 	private Set<Profile> followers;
 	private User owner;
+	private PageCategory category;
 	
 	
-	public Page(String name, User owner) throws Exception {
+	public Page(String name, User owner, PageCategory category) throws Exception {
 		super(name);
 		this.followers = Collections.synchronizedSet(new HashSet<Profile>());
+		this.setOwner(owner);
+		this.setCategory(category);
 	}
 	
 	private void shareWithFollowers(Post post) throws Exception {
@@ -54,6 +58,32 @@ public class Page extends Profile implements Postable, Likeable{
 				throw new Exception("Profile that liked the page is null!");
 			}
 			this.followers.add(profile);
+			profile.addLikedPage(this);
+	}
+
+	private void setOwner(User owner) throws Exception {
+		if(owner == null) {
+			throw new Exception("Owner of the page can't be null!");
+		}
+		this.owner = owner;
+	}
+
+	private void setCategory(PageCategory category) throws Exception {
+		if(category == null) {
+			throw new Exception("Category of the page can't be null!");
+		}
+		this.category = category;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Page) {
+			return ((Page)obj).owner.equals(this.owner) && ((Page)obj).category.equals(this.category) && ((Page)obj).getName().equals(this.getName());
+		}
+		return false;
+	}
+	@Override
+	public int hashCode() {
+		return this.category.hashCode()*this.owner.hashCode()*this.getName().hashCode();
 	}
 
 }

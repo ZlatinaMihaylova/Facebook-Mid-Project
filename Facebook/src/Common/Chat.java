@@ -26,7 +26,9 @@ public class Chat {
 	private Profile receiver;
 	private LocalDateTime lastUpdate;
 	private Set<Message> messages;
-	private Comparator<Message> comparator = (Message message1,Message message2) -> message1.getTime().compareTo(message2.getTime());
+	private Comparator<Message> comparator = (message1, message2) -> {
+		return message1.getTime().compareTo(message2.getTime()) == 0 ? 1 : message1.getTime().compareTo(message2.getTime());
+	};
 	
 	public Chat(Profile sender, Profile receiver) throws Exception {
 		this.setSender(sender);
@@ -68,8 +70,18 @@ public class Chat {
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Chat) {
+			return ((Chat)obj).receiver.equals(this.receiver) && ((Chat)obj).sender.equals(this.sender);
+		}
+		return false;
+	}
 	
-	
+	@Override
+	public int hashCode() {
+		return this.receiver.hashCode()*this.sender.hashCode();
+	}
 	
 	
 	
