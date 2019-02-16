@@ -16,9 +16,6 @@ public abstract class TextContent {
 		this.time = LocalDateTime.now();
 	}
 	
-	
-	
-	
 	private void setAuthor(Profile author) throws Exception {
 		if(author == null) {
 			throw new Exception("Author of comment is null!");
@@ -60,6 +57,4 @@ public abstract class TextContent {
 	public int hashCode() {
 		return this.author.hashCode()*this.content.hashCode()*this.time.hashCode();
 	}
-	
-	
 }

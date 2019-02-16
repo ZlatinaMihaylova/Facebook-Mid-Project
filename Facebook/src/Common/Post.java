@@ -16,8 +16,6 @@ import java.util.Set;
 
 public class Post extends TextContent implements Likeable{
 
-	
-	
 	private class Comment extends TextContent implements Likeable{
 
 		private Post post;
@@ -38,7 +36,6 @@ public class Post extends TextContent implements Likeable{
 			}
 			this.likes.add(profile);
 		}
-		
 
 		private void setPost(Post post) throws Exception {
 			if(post == null) {
@@ -46,17 +43,14 @@ public class Post extends TextContent implements Likeable{
 			}
 			this.post = post;
 		}
-		
-
 	}
-	
 	
 	private List<Comment> comments;
 	private Set<Profile> likes;
 	private Photo photo;
 	private LocalDateTime time;
 	
-	 Post(String content, Profile author) throws Exception {
+	public Post(String content, Profile author) throws Exception {
 		super(content, author);
 		this.time = LocalDateTime.now();
 		this.comments = Collections.synchronizedList(new ArrayList<Comment>());
@@ -86,8 +80,10 @@ public class Post extends TextContent implements Likeable{
 			}
 			this.likes.add(profile);
 	}
-	 
-	 
+	 @Override
+	 public String toString() {
+		 return this.getAuthor().toString() + ":    \n" + this.getContent();
+	 }
 
 //	private void uploadPhoto(String photoPath) throws Exception {
 //		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
@@ -116,11 +112,5 @@ public class Post extends TextContent implements Likeable{
 
 	public LocalDateTime getTime() {
 		return time;
-	}
-	
-	
-	
-	 
-	 
-	 
+	}	 
 }

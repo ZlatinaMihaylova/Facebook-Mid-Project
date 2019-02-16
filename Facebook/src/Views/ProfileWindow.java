@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import Common.FacebookSystem;
+import Common.Post;
 import Common.Profile;
 import Common.User;
 
@@ -20,8 +21,12 @@ import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.SystemColor;
 
 public class ProfileWindow {
 
@@ -31,6 +36,7 @@ public class ProfileWindow {
 	private Profile profile;
 	private static User loggedInUser;
 	private boolean isItMyProfile;
+	private JTextField postText;
 
 	/**
 	 * Launch the application.
@@ -71,7 +77,7 @@ public class ProfileWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 640, 480);
+		frame.setBounds(100, 100, 640, 640);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -140,6 +146,24 @@ public class ProfileWindow {
 		homePageButton.setBounds(356, 16, 145, 25);
 		frame.getContentPane().add(homePageButton);
 		
+		
+		DefaultListModel listModel   = new DefaultListModel();
+		for (Post post: profile.getPosts()) {
+			listModel.addElement(post);
+		}
+		
+		JList list = new JList();
+		list.setBorder(null);
+		list.setBackground(SystemColor.menu);
+		list.setModel(listModel);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(299, 240, 311, 349);
+		scrollPane.setViewportView(list);
+		frame.getContentPane().add(scrollPane);
+		frame.getContentPane().revalidate();
+		frame.getContentPane().repaint();
+		
 		if ( this.isItMyProfile) {
 			JButton changeInformationButton = new JButton("Change Information");
 			changeInformationButton.addActionListener(new ActionListener() {
@@ -157,20 +181,68 @@ public class ProfileWindow {
 			changeInformationButton.setBounds(12, 275, 171, 25);
 			frame.getContentPane().add(changeInformationButton);
 			
+			postText = new JTextField();
+			postText.setBounds(299, 95, 311, 109);
+			frame.getContentPane().add(postText);
+			postText.setColumns(10);
 			
+			JButton postButton = new JButton("Post");
+			postButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String text = postText.getText();
+					postText.setText(null);
+					
+					try {
+						loggedInUser.writeNewStatus(text);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					DefaultListModel listModel   = new DefaultListModel();
+					for (Post post: profile.getPosts()) {
+						listModel.addElement(post);
+					}
+					
+					JList list = new JList();
+					list.setBorder(null);
+					list.setBackground(SystemColor.menu);
+					list.setModel(listModel);
+					
+					scrollPane.setBounds(299, 240, 311, 349);
+					scrollPane.setViewportView(list);
+					frame.getContentPane().add(scrollPane);
+					frame.getContentPane().revalidate();
+					frame.getContentPane().repaint();
+					
+					
+				}
+			});
+			postButton.setBounds(392, 213, 97, 25);
+			frame.getContentPane().add(postButton);
 			
 		}
 		
 		else { 
-			if (loggedInUser.containsFriendRequest(profile)) {
+			if (loggedInUser.containsFriend(profile) ) {
+				JButton friendsButton = new JButton("You are friends");
+				friendsButton.setBounds(22, 51, 182, 25);
+				frame.getContentPane().add(friendsButton);
+			}
+			else if (loggedInUser.containsFriendRequest(profile)) {
 				JButton friendRequestButton = new JButton("Accept friend request");
 				friendRequestButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						loggedInUser.acceptFriendRequest(profile);
+						try {
+							loggedInUser.acceptFriendRequest(profile);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 						frame.remove(friendRequestButton);
 						
-						JButton friendsButton = new JButton("You are friends now");
+						JButton friendsButton = new JButton("You are friends");
 						friendsButton.setBounds(22, 51, 182, 25);
 						frame.getContentPane().add(friendsButton);
 					}
@@ -194,7 +266,6 @@ public class ProfileWindow {
 				friendRequestButton.setBounds(22, 51, 182, 25);
 				frame.getContentPane().add(friendRequestButton);
 			}
-			
 		}
 		
 		JButton logoutButton = new JButton("Log out");
@@ -217,10 +288,47 @@ public class ProfileWindow {
 		logoutButton.setBounds(492, 16, 97, 25);
 		frame.getContentPane().add(logoutButton);
 		
-
-
-		
-		
-		
+		JButton showFriendsButton = new JButton("Friends");
+		showFriendsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DefaultListModel listModel   = new DefaultListModel();
+				for (Profile user: ((User)profile).getFriends()) {
+					listModel.addElement(user);
+				}
+				
+				JList list = new JList();
+				list.setModel(listModel);
+				
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setBounds(12, 340, 251, 185);
+				scrollPane.setViewportView(list);
+				frame.getContentPane().add(scrollPane);
+				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
+				
+				list.addMouseListener(new MouseAdapter() {
+				    public void mouseClicked(MouseEvent evt) {
+				    	JList list  = (JList)evt.getSource();
+				        if (evt.getClickCount() == 2) {
+				        	int index = list.locationToIndex(evt.getPoint());
+				            if ( index >= 0) {
+				            	Profile profile = (Profile) list.getModel().getElementAt(index);
+				            	if ( profile != null) {
+				            		frame.setVisible(false);
+						            frame.dispose();
+						                
+						            ProfileWindow profileView = new ProfileWindow(profile, false,ProfileWindow.getLoggedInUser());
+						            ProfileWindow.main(profile,false,ProfileWindow.getLoggedInUser()); 
+										
+				            	 }
+				             }
+				         }
+				    }
+				}); 
+			}
+		});
+		showFriendsButton.setBounds(56, 310, 97, 25);
+		frame.getContentPane().add(showFriendsButton);
 	}
 }

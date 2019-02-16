@@ -9,14 +9,10 @@ public class NewsFeed {
 
 	private Set<Post> posts;
 	Comparator<Post> postComparator = (post1, post2) -> post2.getTime().compareTo(post1.getTime());
-	
-	
-	
+
 	public NewsFeed() {
 		this.posts = Collections.synchronizedSet(new TreeSet<Post>(postComparator));
 	}
-	
-	
 	
 	public void addPost(Post post) throws Exception {
 		if(post == null) {
@@ -24,7 +20,15 @@ public class NewsFeed {
 		}
 		this.posts.add(post);
 	}
-	
-	
-	
+	 
+	public void addPosts(Set<Post> posts) throws Exception{
+		for ( Post post: posts) {
+			this.addPost(post);
+		}
+	}
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
 }

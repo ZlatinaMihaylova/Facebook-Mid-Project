@@ -1,4 +1,4 @@
-package Common;
+ package Common;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -68,8 +68,6 @@ public abstract class Profile {
 		profile.chats.add(chat);
 		return chat;
 	}
-	
-	
 	
 	public void updateInformation(String highSchool, String university, String employer, String currentCity, String hometown) throws Exception {
 		this.setHighSchool(highSchool);
@@ -159,11 +157,17 @@ public abstract class Profile {
 		this.likedPages.add(page);
 	}
 	
-	
 	@Override
 	public String toString() {
 		return this.name ;
 	}
-	
+
+	public Set<Post> getPosts() {
+		return posts;
+	}
+
+	public NewsFeed getNewsFeed() {
+		return newsFeed;
+	}
 
 }

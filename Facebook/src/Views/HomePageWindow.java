@@ -1,6 +1,7 @@
 package Views;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import Common.FacebookSystem;
+import Common.Post;
 import Common.Profile;
 import Common.User;
 import javax.swing.JSeparator;
@@ -24,6 +26,7 @@ import javax.swing.JSeparator;
 public class HomePageWindow {
 
 	private JFrame frame;
+	private JTextField postText;
 	
 
 	/**
@@ -84,9 +87,14 @@ public class HomePageWindow {
 				}
 				
 				JList list = new JList();
-				list.setBounds(12, 35, 188, 100);
-				frame.getContentPane().add(list);
 				list.setModel(listModel);
+				
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setBounds(12, 35, 188, 100);
+				scrollPane.setViewportView(list);
+				frame.getContentPane().add(scrollPane);
+				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
 				
 				list.addMouseListener(new MouseAdapter() {
 				    public void mouseClicked(MouseEvent evt) {
@@ -170,11 +178,16 @@ public class HomePageWindow {
 				for (Profile profile: results) {
 					listModel.addElement(profile);
 				}
-				
+			
 				JList list = new JList();
-				list.setBounds(469, 37, 97, 100);
-				frame.getContentPane().add(list);
 				list.setModel(listModel);
+				
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setBounds(469, 37, 97, 100);
+				scrollPane.setViewportView(list);
+				frame.getContentPane().add(scrollPane);
+				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
 				
 				list.addMouseListener(new MouseAdapter() {
 				    public void mouseClicked(MouseEvent evt) {
@@ -200,6 +213,61 @@ public class HomePageWindow {
 		});
 		showFriendRequest.setBounds(469, 12, 97, 25);
 		frame.getContentPane().add(showFriendRequest);
+		
+		
+		DefaultListModel listModel   = new DefaultListModel();
+		for (Post post: ProfileWindow.getLoggedInUser().getNewsFeed().getPosts()) {
+			listModel.addElement(post);
+		}
+		
+		JList list = new JList();
+		list.setBorder(null);
+		list.setBackground(SystemColor.menu);
+		list.setModel(listModel);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 270, 758, 470);
+		scrollPane.setViewportView(list);
+		frame.getContentPane().add(scrollPane);
+		frame.getContentPane().revalidate();
+		frame.getContentPane().repaint();
 
+		postText = new JTextField();
+		postText.setBounds(212, 118, 354, 104);
+		frame.getContentPane().add(postText);
+		postText.setColumns(10);
+		
+		JButton postButton = new JButton("Post");
+		postButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String text = postText.getText();
+				postText.setText(null);
+				
+				try {
+					ProfileWindow.getLoggedInUser().writeNewStatus(text);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				DefaultListModel listModel   = new DefaultListModel();
+				for (Post post: ProfileWindow.getLoggedInUser().getNewsFeed().getPosts()) {
+					listModel.addElement(post);
+				}
+				
+				JList list = new JList();
+				list.setBorder(null);
+				list.setBackground(SystemColor.menu);
+				list.setModel(listModel);
+				
+				scrollPane.setBounds(299, 240, 311, 349);
+				scrollPane.setViewportView(list);
+				frame.getContentPane().add(scrollPane);
+				frame.getContentPane().revalidate();
+				frame.getContentPane().repaint();
+			}
+		});
+		postButton.setBounds(341, 232, 97, 25);
+		frame.getContentPane().add(postButton);
 	}
 }

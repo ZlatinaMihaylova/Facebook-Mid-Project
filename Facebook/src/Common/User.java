@@ -14,7 +14,7 @@ public class User extends Profile implements Postable{
 	private boolean isLoggedIn;
 	private GenderType gender;
 	
-	private Set<User> friends;
+	private Set<Profile> friends;
 	private Set<Profile> friendRequest;
 	private Set<Page> createdPages;
 
@@ -24,13 +24,11 @@ public class User extends Profile implements Postable{
 		this.password = password;
 //		this.setGender(gender);
 		
-		this.friends = Collections.synchronizedSet(new HashSet<User>());
+		this.friends = Collections.synchronizedSet(new HashSet<Profile>());
 		this.createdPages = new HashSet<Page>();
 		this.friendRequest = new HashSet<Profile>();
 		
 	}
-	
-	
 	
 	public void sendFriendRequest(User user) {
 		if ( user != null) {
@@ -44,14 +42,16 @@ public class User extends Profile implements Postable{
 		}
 	}
 	
-	public void acceptFriendRequest(Profile profile) {
+	public void acceptFriendRequest(Profile profile) throws Exception {
 		if ( profile != null) {
-			this.friends.add((User) profile);
+			this.friendRequest.remove(profile);
+			this.addFriendToTheList((User)profile);
 			((User)profile).addFriendToTheList(this);
 		}
 	}
 	
-	public void addFriendToTheList(User user) {
+	public void addFriendToTheList(User user) throws Exception {
+		((Profile) this).getNewsFeed().addPosts(user.getPosts());
 		this.friends.add(user);
 	}
 	
@@ -94,7 +94,7 @@ public class User extends Profile implements Postable{
 	}
 
 	private void sharePostWithFriends(Post post) throws Exception {
-		for(User friend : this.friends) {
+		for(Profile friend : this.friends) {
 			friend.addPostToNewsFeed(post);
 		}
 	}
@@ -130,17 +130,19 @@ public class User extends Profile implements Postable{
 		this.createdPages.add(page);
 	}
 
-
-
 	public boolean containsFriendRequest(Profile profile) {
 		return this.friendRequest.contains(profile);
 	}
 
-
+	public boolean containsFriend(Profile profile) {
+		return this.friends.contains(profile);
+	}
 
 	public Set<Profile> getFriendRequest() {
 		return friendRequest;
 	}
 
-	
+	public Set<Profile> getFriends() {
+		return friends;
+	}	
 }
