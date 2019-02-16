@@ -9,8 +9,6 @@ import Common.Page.PageCategory;
 public class User extends Profile implements Postable{
 	private enum GenderType{MALE, FEMALE};
 	
-	
-	
 	private String email;
 	private String password;
 	private boolean isLoggedIn;
@@ -46,13 +44,16 @@ public class User extends Profile implements Postable{
 		}
 	}
 	
-	public void AcceptFriendRequest(Profile profile) {
+	public void acceptFriendRequest(Profile profile) {
 		if ( profile != null) {
-//			this.friends.add(profile);
+			this.friends.add((User) profile);
+			((User)profile).addFriendToTheList(this);
 		}
-		
 	}
 	
+	public void addFriendToTheList(User user) {
+		this.friends.add(user);
+	}
 	
 	private void setGender(GenderType gender) throws Exception {
 		if(gender == null) {
@@ -129,7 +130,17 @@ public class User extends Profile implements Postable{
 		this.createdPages.add(page);
 	}
 
-	
+
+
+	public boolean containsFriendRequest(Profile profile) {
+		return this.friendRequest.contains(profile);
+	}
+
+
+
+	public Set<Profile> getFriendRequest() {
+		return friendRequest;
+	}
 
 	
 }

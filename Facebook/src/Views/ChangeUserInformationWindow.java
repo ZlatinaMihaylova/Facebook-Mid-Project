@@ -23,15 +23,16 @@ public class ChangeUserInformationWindow {
 	private JTextField updateHometownField;
 	
 	private Profile profle;
+	private static User loggedInUser;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Profile profle) {
+	public static void main(Profile profle,User loggedInUser) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChangeUserInformationWindow window = new ChangeUserInformationWindow(profle);
+					ChangeUserInformationWindow window = new ChangeUserInformationWindow(profle,loggedInUser);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +44,7 @@ public class ChangeUserInformationWindow {
 	/**
 	 * Create the application.
 	 */
-	public ChangeUserInformationWindow(Profile profle) {
+	public ChangeUserInformationWindow(Profile profle, User loggedInUser) {
 		this.profle = profle;
 		initialize();
 	}
@@ -122,8 +123,8 @@ public class ChangeUserInformationWindow {
 				frame.setVisible(false);
                 frame.dispose();
                 
-                ProfileWindow changeInformation = new ProfileWindow(profle, true);
-                ProfileWindow.main(profle,true);
+                ProfileWindow changeInformation = new ProfileWindow(profle, true,loggedInUser);
+                ProfileWindow.main(profle,true,loggedInUser);
 			}
 		});
 		updateInformationButton.setFont(new Font("Tahoma", Font.PLAIN, 16));

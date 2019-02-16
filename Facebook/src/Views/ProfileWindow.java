@@ -35,11 +35,11 @@ public class ProfileWindow {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Profile profile,boolean isItMyProfile) {
+	public static void main(Profile profile,boolean isItMyProfile,User loggedInUser) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProfileWindow window = new ProfileWindow(profile, isItMyProfile);
+					ProfileWindow window = new ProfileWindow(profile, isItMyProfile,loggedInUser);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,9 +51,10 @@ public class ProfileWindow {
 	/**
 	 * Create the application.
 	 */
-	public ProfileWindow(Profile profile,boolean isItMyProfile) {
+	public ProfileWindow(Profile profile,boolean isItMyProfile, User loggedInUser) {
 		this.profile = profile;
 		this.isItMyProfile = isItMyProfile;
+		this.loggedInUser = loggedInUser;
 		initialize();
 	}
 	
@@ -147,8 +148,8 @@ public class ProfileWindow {
 					frame.setVisible(false);
 	                frame.dispose();
 					
-					ChangeUserInformationWindow changeInformation = new ChangeUserInformationWindow(profile);
-					ChangeUserInformationWindow.main(profile);
+					ChangeUserInformationWindow changeInformation = new ChangeUserInformationWindow(profile,loggedInUser);
+					ChangeUserInformationWindow.main(profile,loggedInUser);
 					
 				}
 			});
@@ -157,31 +158,69 @@ public class ProfileWindow {
 			frame.getContentPane().add(changeInformationButton);
 			
 			
-			JButton logoutButton = new JButton("Log out");
-			logoutButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Log out",
-							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
-						
-						frame.setVisible(false);
-		                frame.dispose();
-		                
-		                setLoggedInUser(null);
-		               
-		                FacebookSystem.getFacebookSystem().logOut(loggedInUser);
-		                LoginSystemWindow newLogin = new LoginSystemWindow();
-		                LoginSystemWindow.main(null);
-					}			
-				}
-			});
-			logoutButton.setBounds(492, 16, 97, 25);
-			frame.getContentPane().add(logoutButton);
+			
 		}
+		
+		else { 
+			if (loggedInUser.containsFriendRequest(profile)) {
+				JButton friendRequestButton = new JButton("Accept friend request");
+				friendRequestButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						loggedInUser.acceptFriendRequest(profile);
+						
+						frame.remove(friendRequestButton);
+						
+						JButton friendsButton = new JButton("You are friends now");
+						friendsButton.setBounds(22, 51, 182, 25);
+						frame.getContentPane().add(friendsButton);
+					}
+				});
+				friendRequestButton.setBounds(22, 51, 182, 25);
+				frame.getContentPane().add(friendRequestButton);
+			}
+			else {
+				JButton friendRequestButton = new JButton("Send Friend Request");
+				friendRequestButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						loggedInUser.sendFriendRequest((User) profile);
+						
+						frame.remove(friendRequestButton);
+						
+						JButton friendsButton = new JButton("Friend request is sent");
+						friendsButton.setBounds(22, 51, 182, 25);
+						frame.getContentPane().add(friendsButton);
+					}
+				});
+				friendRequestButton.setBounds(22, 51, 182, 25);
+				frame.getContentPane().add(friendRequestButton);
+			}
+			
+		}
+		
+		JButton logoutButton = new JButton("Log out");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Log out",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+					
+					frame.setVisible(false);
+	                frame.dispose();
+
+	                FacebookSystem.getFacebookSystem().logOut(loggedInUser);
+	                LoginSystemWindow newLogin = new LoginSystemWindow();
+	                LoginSystemWindow.main(null);
+	                
+	                setLoggedInUser(null);
+				}			
+			}
+		});
+		logoutButton.setBounds(492, 16, 97, 25);
+		frame.getContentPane().add(logoutButton);
+		
+
 
 		
 		
 		
 	}
-
-	
 }

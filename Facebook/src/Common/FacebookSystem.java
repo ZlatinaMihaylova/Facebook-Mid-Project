@@ -25,7 +25,7 @@ public class FacebookSystem {
 		return FacebookSystem.facebookSystem;
 	}
 	
-	void showAllAccounts() {
+	public void showAllAccounts() {
 		for (User a : users) {
 			System.out.println(a.toString());
 		}
@@ -33,13 +33,13 @@ public class FacebookSystem {
 	
 	public HashSet<Profile> searchByName(String name) {
 		Set<Profile> profiles = new HashSet<Profile>();
-		for (User a : users) {
-			if (a.getName().toLowerCase().equals(name.toLowerCase()) ) {
+		for (User a : this.users) {
+			if (a.getName().toLowerCase().contains(name.toLowerCase()) ) {
 				profiles.add(a);
 			}
 		}
 		for(Page page : this.pages) {
-			if (page.getName().toLowerCase().equals(name.toLowerCase()) ) {
+			if (page.getName().toLowerCase().contains(name.toLowerCase()) ) {
 				profiles.add(page);
 			}
 		}

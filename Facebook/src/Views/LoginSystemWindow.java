@@ -106,9 +106,9 @@ public class LoginSystemWindow {
 	                frame.dispose();
 	                
 	                user.logIn();
-					ProfileWindow profile = new ProfileWindow(user,true);
-					ProfileWindow.main(user,true); 
-					profile.setLoggedInUser(user);
+					ProfileWindow profile = new ProfileWindow(user,true,user);
+					ProfileWindow.main(user,true,user); 
+					ProfileWindow.setLoggedInUser(user);
 				}
 			}
 		});

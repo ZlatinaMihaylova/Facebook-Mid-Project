@@ -3,21 +3,28 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import Common.FacebookSystem;
 import Common.Profile;
+import Common.User;
+import javax.swing.JSeparator;
 
 public class HomePageWindow {
 
 	private JFrame frame;
+	
 
 	/**
 	 * Launch the application.
@@ -53,16 +60,15 @@ public class HomePageWindow {
 		
 		
 		JTextField searchFiled = new JTextField();
-		searchFiled.setBounds(194, 13, 188, 22);
+		searchFiled.setBounds(12, 13, 188, 22);
 		frame.getContentPane().add(searchFiled);
 		searchFiled.setColumns(10);
 		
-		JList list = new JList();
-		list.setBounds(194, 30, 188, 100);
-
+		
+		
 		
 		JButton searchButton = new JButton("Search");
-		frame.getContentPane().add(list);
+		
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -71,38 +77,46 @@ public class HomePageWindow {
 				HashSet<Profile> results = new HashSet<Profile>();
 				
 				results = FacebookSystem.getFacebookSystem().searchByName(searched);
-				
+
 				DefaultListModel listModel   = new DefaultListModel();
 				for (Profile profile: results) {
 					listModel.addElement(profile);
 				}
 				
+				JList list = new JList();
+				list.setBounds(12, 35, 188, 100);
+				frame.getContentPane().add(list);
 				list.setModel(listModel);
 				
-				
-				JButton viewProfile = new JButton("View profile");
-				frame.getContentPane().add(viewProfile);
-				viewProfile.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if (list.getSelectedValue() != null ) {
-							frame.setVisible(false);
-			                frame.dispose();
-			                
-							ProfileWindow profile = new ProfileWindow((Profile)list.getSelectedValue(), false);
-							ProfileWindow.main((Profile)list.getSelectedValue(),false); 
-						}
-						
-					}
-				});
-				viewProfile.setBounds(394, 40, 97, 25);
-				
-				
-				
-				
-				
+				list.addMouseListener(new MouseAdapter() {
+				    public void mouseClicked(MouseEvent evt) {
+				    	 JList list  = (JList)evt.getSource();
+				         if (evt.getClickCount() == 2) {
+				             int index = list.locationToIndex(evt.getPoint());
+				             if ( index >= 0) {
+				            	 Profile profile = (Profile) list.getModel().getElementAt(index);
+				            	 if ( profile != null) {
+				            		 frame.setVisible(false);
+						             frame.dispose();
+						                
+						             if ( ProfileWindow.getLoggedInUser().equals(profile)) {
+						            	 ProfileWindow profileView = new ProfileWindow(profile, true,ProfileWindow.getLoggedInUser());
+						            	 ProfileWindow.main(profile,true,ProfileWindow.getLoggedInUser()); 
+						             }
+						             else {
+						            	 ProfileWindow profileView = new ProfileWindow(profile, false,ProfileWindow.getLoggedInUser());
+						            	 ProfileWindow.main(profile,false,ProfileWindow.getLoggedInUser()); 
+						             }
+										
+				            	 }
+				             }
+				        
+				         }
+				    }
+				}); 
 			}
 		});
-		searchButton.setBounds(394, 12, 97, 25);
+		searchButton.setBounds(212, 12, 97, 25);
 		frame.getContentPane().add(searchButton);
 		
 		JButton myProfile = new JButton("My Profile");
@@ -112,13 +126,80 @@ public class HomePageWindow {
 				frame.setVisible(false);
                 frame.dispose();
 				
-				ProfileWindow profile = new ProfileWindow(ProfileWindow.getLoggedInUser(), true);
-				ProfileWindow.main(ProfileWindow.getLoggedInUser(), true); 
+				ProfileWindow profile = new ProfileWindow(ProfileWindow.getLoggedInUser(), true,ProfileWindow.getLoggedInUser());
+				ProfileWindow.main(ProfileWindow.getLoggedInUser(), true,ProfileWindow.getLoggedInUser()); 
 				
 				
 			}
 		});
-		myProfile.setBounds(559, 12, 97, 25);
+		myProfile.setBounds(578, 12, 97, 25);
 		frame.getContentPane().add(myProfile);
+		
+		JButton logoutButton = new JButton("Log out");
+		logoutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Log out",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+					
+					frame.setVisible(false);
+
+	                FacebookSystem.getFacebookSystem().logOut(ProfileWindow.getLoggedInUser());
+	                LoginSystemWindow newLogin = new LoginSystemWindow();
+	                LoginSystemWindow.main(null);
+	                
+	                ProfileWindow.setLoggedInUser(null);
+				}			
+			}
+		});
+		logoutButton.setBounds(687, 12, 83, 25);
+		frame.getContentPane().add(logoutButton);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(23, 103, 731, 2);
+		frame.getContentPane().add(separator);
+		
+		JButton showFriendRequest = new JButton("Friend Requests");
+		showFriendRequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Set<Profile> results = new HashSet<Profile>();
+				
+				results = ProfileWindow.getLoggedInUser().getFriendRequest();
+
+				DefaultListModel listModel   = new DefaultListModel();
+				for (Profile profile: results) {
+					listModel.addElement(profile);
+				}
+				
+				JList list = new JList();
+				list.setBounds(469, 37, 97, 100);
+				frame.getContentPane().add(list);
+				list.setModel(listModel);
+				
+				list.addMouseListener(new MouseAdapter() {
+				    public void mouseClicked(MouseEvent evt) {
+				    	 JList list  = (JList)evt.getSource();
+				         if (evt.getClickCount() == 2) {
+				             int index = list.locationToIndex(evt.getPoint());
+				             if ( index >= 0) {
+				            	 Profile profile = (Profile) list.getModel().getElementAt(index);
+		
+				            	 if ( profile != null) {
+				            		 frame.setVisible(false);
+						                frame.dispose();
+						                
+										ProfileWindow profileView = new ProfileWindow(profile, false,ProfileWindow.getLoggedInUser());
+										ProfileWindow.main(profile,false,ProfileWindow.getLoggedInUser()); 
+				            	 }
+				             }
+				        
+				         }
+				    }
+				}); 
+			}
+		});
+		showFriendRequest.setBounds(469, 12, 97, 25);
+		frame.getContentPane().add(showFriendRequest);
+
 	}
 }
