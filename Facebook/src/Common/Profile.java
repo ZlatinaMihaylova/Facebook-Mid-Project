@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import sun.java2d.cmm.ProfileDeferralMgr;
+
 
 public abstract class Profile {
 	
@@ -21,6 +23,8 @@ public abstract class Profile {
 	private Set<Post> posts;
 	private Set<Chat> chats;
 	private Set<Page> likedPages;
+	
+	private Chat lastChat;
 	
 	//Comparators
 	Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
@@ -42,14 +46,24 @@ public abstract class Profile {
 		this.likedPages = new HashSet<Page>();
 	}
 	
+	public Chat getLastChat() {
+		return lastChat;
+	}
+	
 	public HashSet<Profile> searchForProfile(String name) {
 		HashSet<Profile> results = FacebookSystem.getFacebookSystem().searchByName(name);
 		return results;
 	}
 	
-	public void sendMessage(Profile profile, String content) throws Exception {
+	public void sendMessage( String content,Profile profile) throws Exception {
 		Chat chat = this.findChat(profile);
-		chat.sendMessage(content, this);
+		chat.sendMessage(content);
+		profile.receiveMessage(content, this);
+	}
+	
+	private void receiveMessage(String content,Profile profile) throws Exception {
+		Chat chat = this.findChat(profile);
+		chat.receiveMessage(content);;
 	}
 	
 	public void printChat(Profile profile) throws Exception {
@@ -57,15 +71,19 @@ public abstract class Profile {
 		this.findChat(profile).printChat();
 	}
 	
-	private Chat findChat(Profile profile) throws Exception {   //find already existing chat or create a new one
+	public Chat findChat(Profile profile) throws Exception {   //find already existing chat or create a new one
 		for(Chat chat : this.chats) {
 			if(chat.hasParticipant(profile)) {
 				return chat;
 			}
 		}
-		Chat chat = new Chat(this, profile);
-		this.chats.add(chat);
+		
+		Chat chat = new Chat(profile, this);
 		profile.chats.add(chat);
+		profile.setLastChat(chat);
+		chat = new Chat(this, profile);
+		this.chats.add(chat);
+		this.setLastChat(chat);
 		return chat;
 	}
 	
@@ -170,4 +188,12 @@ public abstract class Profile {
 		return newsFeed;
 	}
 
+	public Set<Chat> getChats() {
+		return chats;
+	}
+
+	public void setLastChat(Chat lastChat) {
+		this.lastChat = lastChat;
+	}
+	
 }

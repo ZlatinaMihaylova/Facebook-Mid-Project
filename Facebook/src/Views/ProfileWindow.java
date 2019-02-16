@@ -7,6 +7,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import Common.Chat;
 import Common.FacebookSystem;
 import Common.Post;
 import Common.Profile;
@@ -266,6 +267,32 @@ public class ProfileWindow {
 				friendRequestButton.setBounds(22, 51, 182, 25);
 				frame.getContentPane().add(friendRequestButton);
 			}
+			
+			
+			JButton sendMessageButton = new JButton("Send Message");
+			sendMessageButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					frame.setVisible(false);
+	                frame.dispose();
+	                
+	                try {
+						ProfileWindow.getLoggedInUser().findChat(profile);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					try {
+						MessengerWindow profileView = new MessengerWindow(profile);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					MessengerWindow.main(profile); 
+				}
+			});
+			sendMessageButton.setBounds(189, 51, 145, 25);
+			frame.getContentPane().add(sendMessageButton);
 		}
 		
 		JButton logoutButton = new JButton("Log out");
@@ -330,5 +357,7 @@ public class ProfileWindow {
 		});
 		showFriendsButton.setBounds(56, 310, 97, 25);
 		frame.getContentPane().add(showFriendsButton);
+		
+		
 	}
 }

@@ -90,7 +90,7 @@ public class HomePageWindow {
 				list.setModel(listModel);
 				
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(12, 35, 188, 100);
+				scrollPane.setBounds(12, 35, 188, 65);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -140,7 +140,7 @@ public class HomePageWindow {
 				
 			}
 		});
-		myProfile.setBounds(578, 12, 97, 25);
+		myProfile.setBounds(561, 12, 125, 25);
 		frame.getContentPane().add(myProfile);
 		
 		JButton logoutButton = new JButton("Log out");
@@ -159,7 +159,7 @@ public class HomePageWindow {
 				}			
 			}
 		});
-		logoutButton.setBounds(687, 12, 83, 25);
+		logoutButton.setBounds(686, 12, 84, 25);
 		frame.getContentPane().add(logoutButton);
 		
 		JSeparator separator = new JSeparator();
@@ -183,7 +183,7 @@ public class HomePageWindow {
 				list.setModel(listModel);
 				
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(469, 37, 97, 100);
+				scrollPane.setBounds(399, 37, 161, 65);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -211,7 +211,7 @@ public class HomePageWindow {
 				}); 
 			}
 		});
-		showFriendRequest.setBounds(469, 12, 97, 25);
+		showFriendRequest.setBounds(399, 12, 161, 25);
 		frame.getContentPane().add(showFriendRequest);
 		
 		
@@ -260,7 +260,7 @@ public class HomePageWindow {
 				list.setBackground(SystemColor.menu);
 				list.setModel(listModel);
 				
-				scrollPane.setBounds(299, 240, 311, 349);
+				scrollPane.setBounds(12, 270, 758, 470);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -269,5 +269,27 @@ public class HomePageWindow {
 		});
 		postButton.setBounds(341, 232, 97, 25);
 		frame.getContentPane().add(postButton);
+		
+		if (ProfileWindow.getLoggedInUser().getLastChat() != null ) {
+			
+			JButton messengerButton = new JButton("Messenger");
+			messengerButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false);
+	                frame.dispose();
+					
+					try {
+						MessengerWindow messa = new MessengerWindow(ProfileWindow.getLoggedInUser().getLastChat().getOtherPerson());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					MessengerWindow.main(ProfileWindow.getLoggedInUser().getLastChat().getOtherPerson()); 
+				}
+			});
+			messengerButton.setBounds(561, 50, 125, 25);
+			frame.getContentPane().add(messengerButton);
+		}
+
 	}
 }

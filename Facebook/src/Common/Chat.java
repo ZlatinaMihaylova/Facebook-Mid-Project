@@ -6,13 +6,18 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import Views.ProfileWindow;
+
 public class Chat {
 
 	
-	private class Message extends TextContent{
-
-		Message(String content, Profile author) throws Exception {
+	public class Message extends TextContent{
+		
+		private Profile receiver;
+		
+		Message(String content, Profile author,Profile receiver) throws Exception {
 			super(content, author);
+			this.receiver = receiver;
 		}
 		
 		@Override
@@ -21,50 +26,39 @@ public class Chat {
 		}
 	}
 	
-	
-	private Profile sender;
-	private Profile receiver;
+	private Profile myProfile;
+	private Profile otherPerson;
 	private LocalDateTime lastUpdate;
 	private Set<Message> messages;
 	private Comparator<Message> comparator = (message1, message2) -> {
 		return message1.getTime().compareTo(message2.getTime()) == 0 ? 1 : message1.getTime().compareTo(message2.getTime());
 	};
 	
-	public Chat(Profile sender, Profile receiver) throws Exception {
-		this.setSender(sender);
-		this.setReceiver(receiver);
+	public Chat(Profile myProfile, Profile otherPerson) throws Exception {
+		this.myProfile = myProfile;
+		this.otherPerson = otherPerson;
 		this.lastUpdate = LocalDateTime.now();
 		this.messages = Collections.synchronizedSortedSet(new TreeSet<Message>(comparator));
 	}
 
-	void sendMessage(String content, Profile author) throws Exception { //adding new message to the chat
-		this.messages.add(new Message(content, author));
+	void sendMessage(String content) throws Exception { //adding new message to the chat
+		this.messages.add(new Message(content, myProfile, otherPerson));
 	}
 	
+	void receiveMessage(String content) throws Exception {
+		this.messages.add(new Message(content, otherPerson, myProfile));
+	}
 	void printChat() {
 		this.messages.forEach(System.out::println);
 	}
 	
-	private void setSender(Profile sender) throws Exception {
-		if(sender == null) {
-			throw new Exception("Sender of chat is null!");
-		}
-		this.sender = sender;
-	}
-
-	private void setReceiver(Profile receiver) throws Exception {
-		if(receiver == null) {
-			throw new Exception("Receiver of chat is null!");
-		}
-		this.receiver = receiver;
-	}
 
 	LocalDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
 	boolean hasParticipant(Profile profile) {
-		if(this.sender.equals(profile) || this.receiver.equals(profile)) {
+		if(this.myProfile.equals(profile) || this.otherPerson.equals(profile)) {
 			return true;
 		}
 		return false;
@@ -73,14 +67,27 @@ public class Chat {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Chat) {
-			return ((Chat)obj).receiver.equals(this.receiver) && ((Chat)obj).sender.equals(this.sender);
+			return ((Chat)obj).myProfile.equals(this.otherPerson) && ((Chat)obj).myProfile.equals(this.otherPerson);
 		}
 		return false;
 	}
 	
 	@Override
 	public int hashCode() {
-		return this.receiver.hashCode()*this.sender.hashCode();
+		return this.otherPerson.hashCode()*this.myProfile.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return this.otherPerson.toString();
+	}
+
+	public Profile getOtherPerson() {
+		return otherPerson;
+	}
+
+	public Set<Message> getMessages() {
+		return messages;
 	}
 	
 	

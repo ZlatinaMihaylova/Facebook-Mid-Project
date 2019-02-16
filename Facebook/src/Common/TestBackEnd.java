@@ -19,11 +19,11 @@ public class TestBackEnd {
 		
 		User georgi = new User("Georgi", "georgi@abv.bg", "64564564");
 		
-		georgi.sendMessage(asen, "zdravei");
-		asen.sendMessage(georgi, "zdr ");
-		georgi.sendMessage(asen, "..");
-		georgi.sendMessage(asen, "..?");
-		asen.sendMessage(georgi, "6545614");
+		georgi.sendMessage("zdravei",asen);
+		asen.sendMessage("zdr ",georgi);
+		georgi.sendMessage("..",asen);
+		georgi.sendMessage("..?",asen);
+		asen.sendMessage("6545614",georgi);
 		georgi.printChat(asen);
 	}
 
