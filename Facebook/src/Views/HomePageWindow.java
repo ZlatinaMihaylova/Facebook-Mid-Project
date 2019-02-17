@@ -57,13 +57,13 @@ public class HomePageWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 800);
+		frame.setBounds(400, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
 		JTextField searchFiled = new JTextField();
-		searchFiled.setBounds(12, 13, 188, 22);
+		searchFiled.setBounds(310, 13, 142, 22);
 		frame.getContentPane().add(searchFiled);
 		searchFiled.setColumns(10);
 		
@@ -90,7 +90,7 @@ public class HomePageWindow {
 				list.setModel(listModel);
 				
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(12, 35, 188, 65);
+				scrollPane.setBounds(310, 35, 142, 65);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -124,7 +124,7 @@ public class HomePageWindow {
 				}); 
 			}
 		});
-		searchButton.setBounds(212, 12, 97, 25);
+		searchButton.setBounds(464, 12, 84, 25);
 		frame.getContentPane().add(searchButton);
 		
 		JButton myProfile = new JButton("My Profile");
@@ -140,7 +140,7 @@ public class HomePageWindow {
 				
 			}
 		});
-		myProfile.setBounds(561, 12, 125, 25);
+		myProfile.setBounds(573, 12, 113, 25);
 		frame.getContentPane().add(myProfile);
 		
 		JButton logoutButton = new JButton("Log out");
@@ -183,7 +183,7 @@ public class HomePageWindow {
 				list.setModel(listModel);
 				
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(399, 37, 161, 65);
+				scrollPane.setBounds(12, 37, 130, 65);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -211,7 +211,7 @@ public class HomePageWindow {
 				}); 
 			}
 		});
-		showFriendRequest.setBounds(399, 12, 161, 25);
+		showFriendRequest.setBounds(12, 12, 130, 25);
 		frame.getContentPane().add(showFriendRequest);
 		
 		
@@ -226,7 +226,7 @@ public class HomePageWindow {
 		list.setModel(listModel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 270, 758, 470);
+		scrollPane.setBounds(12, 270, 758, 270);
 		scrollPane.setViewportView(list);
 		frame.getContentPane().add(scrollPane);
 		frame.getContentPane().revalidate();
@@ -260,7 +260,7 @@ public class HomePageWindow {
 				list.setBackground(SystemColor.menu);
 				list.setModel(listModel);
 				
-				scrollPane.setBounds(12, 270, 758, 470);
+				scrollPane.setBounds(12, 270, 758, 270);
 				scrollPane.setViewportView(list);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -269,6 +269,8 @@ public class HomePageWindow {
 		});
 		postButton.setBounds(341, 232, 97, 25);
 		frame.getContentPane().add(postButton);
+		
+		
 		
 		if (ProfileWindow.getLoggedInUser().getLastChat() != null ) {
 			
@@ -287,7 +289,7 @@ public class HomePageWindow {
 					MessengerWindow.main(ProfileWindow.getLoggedInUser().getLastChat().getOtherPerson()); 
 				}
 			});
-			messengerButton.setBounds(561, 50, 125, 25);
+			messengerButton.setBounds(147, 12, 122, 23);
 			frame.getContentPane().add(messengerButton);
 		}
 

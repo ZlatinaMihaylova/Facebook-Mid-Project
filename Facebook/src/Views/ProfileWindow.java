@@ -78,7 +78,7 @@ public class ProfileWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 640, 640);
+		frame.setBounds(400, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -134,6 +134,7 @@ public class ProfileWindow {
 		frame.getContentPane().add(HometownInfo);
 		
 		JButton homePageButton = new JButton("Home page");
+		homePageButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		homePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -144,7 +145,7 @@ public class ProfileWindow {
 				HomePageWindow.main(null);
 			}
 		});
-		homePageButton.setBounds(356, 16, 145, 25);
+		homePageButton.setBounds(396, 9, 214, 34);
 		frame.getContentPane().add(homePageButton);
 		
 		
@@ -159,7 +160,7 @@ public class ProfileWindow {
 		list.setModel(listModel);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(299, 240, 311, 349);
+		scrollPane.setBounds(299, 240, 475, 305);
 		scrollPane.setViewportView(list);
 		frame.getContentPane().add(scrollPane);
 		frame.getContentPane().revalidate();
@@ -183,7 +184,7 @@ public class ProfileWindow {
 			frame.getContentPane().add(changeInformationButton);
 			
 			postText = new JTextField();
-			postText.setBounds(299, 95, 311, 109);
+			postText.setBounds(299, 95, 475, 109);
 			frame.getContentPane().add(postText);
 			postText.setColumns(10);
 			
@@ -210,7 +211,7 @@ public class ProfileWindow {
 					list.setBackground(SystemColor.menu);
 					list.setModel(listModel);
 					
-					scrollPane.setBounds(299, 240, 311, 349);
+					scrollPane.setBounds(299, 240, 475, 305);
 					scrollPane.setViewportView(list);
 					frame.getContentPane().add(scrollPane);
 					frame.getContentPane().revalidate();
@@ -219,7 +220,7 @@ public class ProfileWindow {
 					
 				}
 			});
-			postButton.setBounds(392, 213, 97, 25);
+			postButton.setBounds(475, 207, 100, 25);
 			frame.getContentPane().add(postButton);
 			
 		}
@@ -312,7 +313,7 @@ public class ProfileWindow {
 				}			
 			}
 		});
-		logoutButton.setBounds(492, 16, 97, 25);
+		logoutButton.setBounds(673, 16, 97, 25);
 		frame.getContentPane().add(logoutButton);
 		
 		JButton showFriendsButton = new JButton("Friends");

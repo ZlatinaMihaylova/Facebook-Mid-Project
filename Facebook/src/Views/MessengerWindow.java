@@ -66,7 +66,7 @@ public class MessengerWindow {
 	 */
 	private void initialize() throws Exception {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 800);
+		frame.setBounds(400, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -89,15 +89,15 @@ public class MessengerWindow {
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		separator_1.setBounds(216, 66, 8, 674);
+		separator_1.setBounds(216, 66, 8, 474);
 		frame.getContentPane().add(separator_1);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(216, 678, 554, 2);
+		separator_2.setBounds(228, 478, 542, 2);
 		frame.getContentPane().add(separator_2);
 		
 		textField = new JTextField();
-		textField.setBounds(226, 688, 443, 52);
+		textField.setBounds(226, 488, 443, 52);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -114,7 +114,7 @@ public class MessengerWindow {
 		
 		JScrollPane scrollPane = new JScrollPane();////tova sa suobshteniqta s nqkoi
 		scrollPane.setForeground(SystemColor.menu);
-		scrollPane.setBounds(228, 128, 542, 537);
+		scrollPane.setBounds(228, 128, 542, 337);
 		scrollPane.setViewportView(list2);
 		frame.getContentPane().add(scrollPane);
 		frame.getContentPane().revalidate();
@@ -150,7 +150,7 @@ public class MessengerWindow {
 				
 				////tova sa suobshteniqta s nqkoi
 				scrollPane.setForeground(SystemColor.menu);
-				scrollPane.setBounds(228, 128, 542, 537);
+				scrollPane.setBounds(228, 128, 542, 337);
 				scrollPane.setViewportView(list2);
 				frame.getContentPane().add(scrollPane);
 				frame.getContentPane().revalidate();
@@ -161,7 +161,7 @@ public class MessengerWindow {
 			
 			
 		});
-		sendButton.setBounds(673, 702, 97, 25);
+		sendButton.setBounds(673, 502, 97, 25);
 		frame.getContentPane().add(sendButton);
 		
 
@@ -181,7 +181,7 @@ public class MessengerWindow {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();// tova sa vsichki suobshteniq
 		scrollPane_1.setForeground(SystemColor.menu);
-		scrollPane_1.setBounds(12, 66, 195, 674);
+		scrollPane_1.setBounds(12, 66, 195, 474);
 		scrollPane_1.setViewportView(list);
 		frame.getContentPane().add(scrollPane_1);
 //		frame.getContentPane().revalidate();
@@ -220,7 +220,7 @@ public class MessengerWindow {
 
 		         	//	JScrollPane scrollPane = new JScrollPane();////tova sa suobshteniqta s nqkoi
 		         		scrollPane.setForeground(SystemColor.menu);
-		         		scrollPane.setBounds(228, 128, 542, 537);
+		         		scrollPane.setBounds(228, 128, 542, 337);
 		         		scrollPane.setViewportView(list2);
 		         		frame.getContentPane().add(scrollPane);
 		         		frame.getContentPane().revalidate();
