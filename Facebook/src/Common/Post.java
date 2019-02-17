@@ -48,11 +48,9 @@ public class Post extends TextContent implements Likeable{
 	private List<Comment> comments;
 	private Set<Profile> likes;
 	private Photo photo;
-	private LocalDateTime time;
 	
 	public Post(String content, Profile author) throws Exception {
 		super(content, author);
-		this.time = LocalDateTime.now();
 		this.comments = Collections.synchronizedList(new ArrayList<Comment>());
 		this.likes = Collections.synchronizedSet(new HashSet<Profile>());
 	}
@@ -85,23 +83,6 @@ public class Post extends TextContent implements Likeable{
 		 return this.getAuthor().toString() + ":    \n" + this.getContent();
 	 }
 
-//	private void uploadPhoto(String photoPath) throws Exception {
-//		if(photoPath == null || !ImageFormatValidator.getInstance().validate(photoPath)) {
-//			throw new Exception("Invalid photo path!");
-//		}
-//		File uploadingPhoto = new File(photoPath);
-//		File uploadedPhoto = new File("src\\resources\\"+uploadingPhoto.hashCode()+".jpg");
-//		uploadedPhoto.createNewFile();
-//		try (InputStream is = new BufferedInputStream(new FileInputStream(uploadingPhoto));
-//			OutputStream os = new BufferedOutputStream(new FileOutputStream(uploadedPhoto))) {
-//				int b = is.read();
-//				while (b != -1) {
-//					os.write(b);
-//					b = is.read();
-//				}
-//		}
-//		this.photo = new Photo(uploadedPhoto);
-//	}
 
 	private void setPhoto(Photo photo) throws Exception {
 		if(photo == null) {
@@ -110,7 +91,5 @@ public class Post extends TextContent implements Likeable{
 		this.photo = photo;
 	}
 
-	public LocalDateTime getTime() {
-		return time;
-	}	 
+	 
 }

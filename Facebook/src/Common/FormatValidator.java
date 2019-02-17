@@ -3,26 +3,26 @@ package Common;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImageFormatValidator {
+public class FormatValidator {
 
    private Pattern pattern;
    private Matcher matcher;
-   private static ImageFormatValidator instance = null;
+   private static FormatValidator instance = null;
    private static final String IMAGE_PATTERN = 
                 "([^\\s]+(\\.(?i)(/bmp|jpg|gif|png))$)";
   
-   private ImageFormatValidator(){
+   private FormatValidator(){
       pattern = Pattern.compile(IMAGE_PATTERN);
    }
-  public synchronized static ImageFormatValidator getInstance() {
+  public synchronized static FormatValidator getInstance() {
 	  if(instance == null) {
-		  instance = new ImageFormatValidator();
+		  instance = new FormatValidator();
 	  }
 	  return instance;
   }
    
   
-   public boolean validate(final String image){
+   public boolean validatePicture(final String image){
   
       matcher = pattern.matcher(image);
       return matcher.matches();

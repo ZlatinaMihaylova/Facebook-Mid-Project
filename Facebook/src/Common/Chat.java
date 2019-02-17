@@ -87,7 +87,7 @@ public class Chat {
 	}
 
 	public Set<Message> getMessages() {
-		return messages;
+		return Collections.unmodifiableSet(messages);
 	}
 	
 	

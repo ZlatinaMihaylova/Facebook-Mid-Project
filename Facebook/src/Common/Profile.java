@@ -17,19 +17,19 @@ public abstract class Profile {
 	private String currentCity;
 	private String birthPlace;
 	private Photo profilePicture;
-	private NewsFeed newsFeed;
+	private transient NewsFeed newsFeed;
 	
 	private Set<Photo> photos;
-	private Set<Post> posts;
-	private Set<Chat> chats;
-	private Set<Page> likedPages;
+	private transient Set<Post> posts;
+	private transient Set<Chat> chats;
+	private transient Set<Page> likedPages;
 	
-	private Chat lastChat;
+	private transient Chat lastChat;
 	
 	//Comparators
-	Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
-	Comparator<Post> postComparator = (post1, post2) -> post2.getTime().compareTo(post1.getTime());
-	Comparator<Photo> photoComparator = (photo1, photo2) ->photo2.getTime().compareTo(photo1.getTime());
+	private transient Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
+	private transient Comparator<Post> postComparator = (post1, post2) -> post2.getTime().compareTo(post1.getTime());
+	private transient Comparator<Photo> photoComparator = (photo1, photo2) ->photo2.getTime().compareTo(photo1.getTime());
 	
 	public Profile(String name) throws Exception {
 		this.setName(name);

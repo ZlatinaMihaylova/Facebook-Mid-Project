@@ -8,8 +8,8 @@ public class Page extends Profile implements Postable, Likeable{
 
 	enum PageCategory{HOBBY, MEDIA, CELEBRITY, BUSINESS, PLACE, OTHER};
 	
-	private Set<Profile> followers;
-	private User owner;
+	private transient Set<Profile> followers;
+	private transient User owner;
 	private PageCategory category;
 	
 	
@@ -43,7 +43,7 @@ public class Page extends Profile implements Postable, Likeable{
 		if(description == null) {
 			throw new Exception("Invalid photo description!");
 		}
-		Photo photo = new Photo(PictureUploader.getInstanceOfPictureDownloader().upload(picturePath, this.owner.getEmail()));
+		Photo photo = new Photo(FileHelper.getInstance().uploadPicture(picturePath, this.owner.getEmail()));
 		Post post = new Post(description, this, photo);
 		this.addNewPhoto(photo);
 		this.addNewPostToProfile(post);

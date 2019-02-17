@@ -14,15 +14,14 @@ public class User extends Profile implements Postable{
 	private boolean isLoggedIn;
 	private GenderType gender;
 	
-	private Set<Profile> friends;
-	private Set<Profile> friendRequest;
-	private Set<Page> createdPages;
+	private transient Set<Profile> friends;
+	private transient Set<Profile> friendRequest;
+	private transient Set<Page> createdPages;
 
 	public User(String name, String email, String password) throws Exception {
 		super(name);
 		this.email = email;
 		this.password = password;
-//		this.setGender(gender);
 		
 		this.friends = Collections.synchronizedSet(new HashSet<Profile>());
 		this.createdPages = new HashSet<Page>();
@@ -104,7 +103,7 @@ public class User extends Profile implements Postable{
 		if(description == null) {
 			throw new Exception("Invalid photo description!");
 		}
-		Photo photo = new Photo(PictureUploader.getInstanceOfPictureDownloader().upload(picturePath, this.email));
+		Photo photo = new Photo(FileHelper.getInstance().uploadPicture(picturePath, this.email));
 		Post post = new Post(description, this, photo);
 		this.addNewPhoto(photo);
 		this.addNewPostToProfile(post);

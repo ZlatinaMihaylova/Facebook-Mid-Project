@@ -71,5 +71,13 @@ public class FacebookSystem {
 		} 
 		return false;
 	}
+	
+	public Set<User> getUsers() {
+		return Collections.unmodifiableSet(this.users);
+	}
+	
+	public Set<Page> getPages() {
+		return Collections.unmodifiableSet(this.pages);
+	}
 
 }
