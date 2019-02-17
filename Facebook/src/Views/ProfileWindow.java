@@ -193,7 +193,6 @@ public class ProfileWindow {
 				public void actionPerformed(ActionEvent e) {
 					
 					String text = postText.getText();
-					postText.setText(null);
 					
 					try {
 						loggedInUser.writeNewStatus(text);
@@ -217,6 +216,7 @@ public class ProfileWindow {
 					frame.getContentPane().revalidate();
 					frame.getContentPane().repaint();
 					
+					postText.setText(null);
 					
 				}
 			});

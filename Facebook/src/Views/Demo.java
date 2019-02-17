@@ -28,11 +28,11 @@ public class Demo {
 		FacebookSystem.getFacebookSystem().register(new User("Margarita Pencheva", "magi58@abv.bg", "aad1213AAA"));
 		FacebookSystem.getFacebookSystem().register(new User("Silviq Gocheva", "sisi@abv.bg", "aad1213AAA"));
 
-/*
+
 		User zlati = new User("Zlati", "zlati@abv.bg", "Zmihaylova97");
 		User zlati2 = new User("Zlati2222", "zlati2@abv.bg", "Zmihaylova97");
-
-
+		FacebookSystem.getFacebookSystem().register(zlati);
+		/*
 		Post post = new Post("az sym zlati", zlati);
 		zlati.addNewPostToProfile(post);
 		post.addLike(zlati2);
