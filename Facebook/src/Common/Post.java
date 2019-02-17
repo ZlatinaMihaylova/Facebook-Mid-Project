@@ -35,6 +35,7 @@ public class Post extends TextContent implements Likeable{
 				throw new Exception("Profile that liked the comment is null!");
 			}
 			this.likes.add(profile);
+			this.getAuthor().addNotification(Notification.getNotification(profile, "commentLike", this.post));
 		}
 
 		private void setPost(Post post) throws Exception {
@@ -62,8 +63,9 @@ public class Post extends TextContent implements Likeable{
 		 this.setPhoto(photo);
 	 }
 	 
-	 void writeComment(String content, Profile author) throws Exception {  //add new comment to post
+	 public void writeComment(String content, Profile author) throws Exception {  //add new comment to post
 		 this.comments.add(new Comment(content, author, this));
+		 this.getAuthor().addNotification(Notification.getNotification(author, "postComment", this));
 	 }
 	 
 	 void deleteComment(Comment comment) throws Exception {  // delete comment from post if existing
@@ -79,6 +81,7 @@ public class Post extends TextContent implements Likeable{
 				throw new Exception("Profile that liked the post is null!");
 			}
 			this.likes.add(profile);
+			this.getAuthor().addNotification(Notification.getNotification(profile, "postLike", this));
 	}
 	 @Override
 	 public String toString() {
