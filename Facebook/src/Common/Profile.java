@@ -2,6 +2,7 @@
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -20,16 +21,30 @@ public abstract class Profile {
 	private transient NewsFeed newsFeed;
 	
 	private Set<Photo> photos;
+<<<<<<< HEAD
 	private transient Set<Post> posts;
 	private transient Set<Chat> chats;
 	private transient Set<Page> likedPages;
+=======
+	private Set<Post> posts;
+	private Set<Chat> chats;
+	private Set<Page> likedPages;
+	private Set<Notification> notifications;
+>>>>>>> 0932678ce6c41ff243edfbd73fcda261ba78bcba
 	
 	private transient Chat lastChat;
 	
 	//Comparators
+<<<<<<< HEAD
 	private transient Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
 	private transient Comparator<Post> postComparator = (post1, post2) -> post2.getTime().compareTo(post1.getTime());
 	private transient Comparator<Photo> photoComparator = (photo1, photo2) ->photo2.getTime().compareTo(photo1.getTime());
+=======
+	Comparator<Chat> chatComparator = (chat1, chat2) -> chat2.getLastUpdate().compareTo(chat1.getLastUpdate());
+	Comparator<Post> postComparator = (post1, post2) -> post2.getTime().compareTo(post1.getTime());
+	Comparator<Photo> photoComparator = (photo1, photo2) ->photo2.getTime().compareTo(photo1.getTime());
+	Comparator<Notification> notificationComparator = (notification1, notification2) ->notification2.getTime().compareTo(notification1.getTime());
+>>>>>>> 0932678ce6c41ff243edfbd73fcda261ba78bcba
 	
 	public Profile(String name) throws Exception {
 		this.setName(name);
@@ -43,6 +58,7 @@ public abstract class Profile {
 		this.chats = Collections.synchronizedSet(new TreeSet<Chat>(chatComparator));
 		this.posts = new TreeSet<Post>(postComparator);			//postove i snimki mogat da se dobavqt samo ot 1 nishka
 		this.photos = new TreeSet<Photo>(photoComparator);
+		this.notifications = new TreeSet<Notification>(notificationComparator);
 		this.likedPages = new HashSet<Page>();
 	}
 	
@@ -173,6 +189,23 @@ public abstract class Profile {
 	}
 	public void addLikedPage(Page page) {
 		this.likedPages.add(page);
+	}
+	
+	public void addNotification(Notification notification) {
+		this.notifications.add(notification);
+	}
+	
+	public void showNotifications() {
+		if ( this.notifications.isEmpty()) {
+			System.out.println("You currently have no new notifications");
+		}
+		else {
+			for ( Iterator<Notification> it = this.notifications.iterator(); it.hasNext(); ) {
+				Notification notification = it.next();
+				System.out.println(notification.showNotification());
+				it.remove();
+			}
+		}
 	}
 	
 	@Override
